@@ -10,12 +10,12 @@ class DeviceTable extends Component {
 
   render() {
     
-    const { SrvInfo, DeviceNames, DeviceNamesInfo } = this.props
-    // console.log("DeviceTable Component - DeviceNames:", DeviceNamesInfo)
+    const { SrvInfo, DeviceNames, DeviceInfo } = this.props
+    console.log("DeviceTable Component - DeviceInfo:", DeviceInfo)
       
     return (
       <section className="devices">
-        {/* <h1>Hostname: {SrvInfo.hostname}</h1> */}
+        {/* <h3>Hostname: {SrvInfo.hostname}</h3> */}
         <div className="devices__table-wrapper">
           <Table compact>
             <Table.Header>
@@ -31,18 +31,17 @@ class DeviceTable extends Component {
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                {/* <Table.Cell>{DeviceNames[0]}</Table.Cell> */}
-                <Table.Cell>{Object.keys(DeviceNamesInfo)[0]}</Table.Cell>
+                <Table.Cell>{DeviceNames[0]}</Table.Cell>
                 <Table.Cell positive>
                   <Icon name='checkmark' />
-                  True {DeviceNamesInfo[0]}
+                    {DeviceInfo[0]}
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>{DeviceNames[1]}</Table.Cell>
                 <Table.Cell negative>
                   <Icon name='close' />
-                  False
+                    {DeviceInfo[1]}
                 </Table.Cell>
               </Table.Row>
             <Table.Row></Table.Row>
