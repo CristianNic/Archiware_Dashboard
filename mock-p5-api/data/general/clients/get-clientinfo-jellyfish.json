@@ -1,0 +1,6 @@
+{
+  "description": "jellyfish server",
+  "hostname": "172.27.8.250",
+  "port": 8000,
+  "isthin": false
+}

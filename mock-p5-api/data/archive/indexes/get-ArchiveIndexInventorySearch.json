@@ -1,0 +1,34 @@
+{
+	"inventory": [
+		{
+			"name": "mnt",
+			"type": "Directory",
+			"size": 0,
+			"btime": 1591145251,
+			"ctime": 0,
+			"mtime": 0,
+			"path": "",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/archive/indexes/Default-Archive/inventory/mnt"
+				}
+			]
+		},
+		{
+			"name": "Volumes",
+			"type": "Directory",
+			"size": 0,
+			"btime": 1614113489,
+			"ctime": 0,
+			"mtime": 0,
+			"path": "",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/archive/indexes/Default-Archive/inventory/mnt"
+				}
+			]
+		}
+	]
+}

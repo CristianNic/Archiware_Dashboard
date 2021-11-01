@@ -1,0 +1,84 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+* {
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+	margin: 0;
+	padding: 0;
+	font-family: $primary-font, sans-serif;
+}
+html {
+	font-size: 10px; // this one has to be absolute size
+	color: $black; 
+  // background-color: rgba(black, 0.1);
+}
+a {
+	display: block;
+	text-decoration: none;
+}
+ul {
+	list-style-type: none;
+}
+// removes default browser basic form element border
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+}
+
+h1 {
+	font-size: 24px;
+	line-height: 32px;
+	font-weight: bold;
+}
+h2 {
+	font-size: 14px;
+	line-height: 22px;
+	font-weight: normal;
+}
+h3 {
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: normal;
+}
+p, h4 {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 300;
+}
+h5 {
+	font-size: 12px;
+	line-height: 20px;
+	font-weight: normal;
+}
+textarea::placeholder {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 300;
+}
+
+// .App {
+// 	text-align: center;
+// 	background-color: #282c34;
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	justify-content: center;
+// }
+// .App-header {
+// 	background-color: #282c34;
+// 	min-height: 100vh;
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	justify-content: center;
+// 	font-size: calc(10px + 2vmin);
+// 	color: white;
+// }
+
+// for leaflet - displays Polyline 
+svg {height: auto; width: auto}

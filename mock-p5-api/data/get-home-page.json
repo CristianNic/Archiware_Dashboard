@@ -1,0 +1,150 @@
+[
+  {
+    "resources": [
+      {
+        "resource": "srvinfo",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/srvinfo"
+          }
+        ]
+      },
+      {
+        "resource": "backup2go/templates",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/backup2go/templates"
+          }
+        ]
+      },
+      {
+        "resource": "backup2go/servers",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/backup2go/servers"
+          }
+        ]
+      },
+      {
+        "resource": "backup2go/workstations",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/backup2go/workstations"
+          }
+        ]
+      },
+      {
+        "resource": "archive/plans",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/archive/plans"
+          }
+        ]
+      },
+      {
+        "resource": "archive/entries",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/archive/entries"
+          }
+        ]
+      },
+      {
+        "resource": "archive/indexes",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/archive/indexes"
+          }
+        ]
+      },
+      {
+        "resource": "backup/plans",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/backup/plans"
+          }
+        ]
+      },
+      {
+        "resource": "synchronize/plans",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/synchronize/plans"
+          }
+        ]
+      },
+      {
+        "resource": "clients",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/clients"
+          }
+        ]
+      },
+      {
+        "resource": "restore/restoreselections",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/restore/restoreselections"
+          }
+        ]
+      },
+      {
+        "resource": "devices",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/devices"
+          }
+        ]
+      },
+      {
+        "resource": "jukeboxes",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/jukeboxes"
+          }
+        ]
+      },
+      {
+        "resource": "pools",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/pools"
+          }
+        ]
+      },
+      {
+        "resource": "volumes",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/volumes"
+          }
+        ]
+      },
+      {
+        "resource": "jobs",
+        "links": [
+          {
+            "rel": "self",
+            "href": "192.168.234.103:8503/rest/v1/jobs"
+          }
+        ]
+      }
+    ]
+  }
+]

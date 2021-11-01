@@ -1,0 +1,28 @@
+[
+  {
+    "devices": [
+      {
+        "ID": "awst0",
+        "links": [
+          {
+            "rel": "self",
+            "href": "100.97.227.115:8000/rest/v1/general/devices/awst0"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "devices": [
+      {
+        "ID": "awst1",
+        "links": [
+          {
+            "rel": "self",
+            "href": "100.97.227.115:8000/rest/v1/general/devices/awst0"
+          }
+        ]
+      }
+    ]
+  }
+]

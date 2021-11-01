@@ -1,0 +1,10 @@
+.refresh {
+  display: flex;
+  flex-direction: row;
+  // justify-content: flex-end;
+  width: 1000px;
+  &__btn {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

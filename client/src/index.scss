@@ -1,0 +1,18 @@
+/* Partials */
+@import "./partials/variables";
+@import "./partials/mixins";
+@import "./partials/fonts";
+@import "./partials/global";
+
+/* Pages */
+@import "./pages/Dashboard";
+
+/* Components */
+@import "./components/Controls_Sandbox/Controls_Sandbox";
+@import "./components/Tables/SrvInfo/SrvInfo";
+@import "./components/Tables/Device/Device";
+
+/* Semantic UI */
+@import "semantic-ui-css/semantic.min.css";
+
+// @import "semantic-ui-css/semantic.min.css"

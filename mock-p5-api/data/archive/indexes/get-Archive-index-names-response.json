@@ -1,0 +1,22 @@
+{
+	"indexes": [
+		{
+			"ID": "Default-Archive",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/archive/indexes/Default-Archive"
+				}
+			]
+		},
+		{
+			"ID": "ProjectArchives",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/archive/indexes/ProjectArchives"
+				}
+			]
+		}
+	]
+}

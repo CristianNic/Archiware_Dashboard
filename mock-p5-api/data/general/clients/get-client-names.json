@@ -1,0 +1,49 @@
+{
+	"clients": [
+		{
+			"ID": "Lannister",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/general/clients/Lannister"
+				}
+			]
+		},
+		{
+			"ID": "Stark",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/general/clients/Stark"
+				}
+			]
+		},
+		{
+			"ID": "avnas4",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/general/clients/avnas4"
+				}
+			]
+		},
+		{
+			"ID": "jellyfish",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/general/clients/jellyfish"
+				}
+			]
+		},
+		{
+			"ID": "localhost",
+			"links": [
+				{
+					"rel": "self",
+					"href": "100.97.227.115:8000/rest/v1/general/clients/localhost"
+				}
+			]
+		}
+	]
+}
