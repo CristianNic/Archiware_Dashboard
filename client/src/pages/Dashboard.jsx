@@ -20,11 +20,10 @@ class Dashboard extends Component {
     LicenseResourceNames: [],
     ArchivePlanNames: [],
     ArchiveIndexNames: [],
-    DeviceNames: [],
-    DeviceInfo: [],
-    DeviceNamesInfo:[],
-    ClientNames: [],
-    ClientInfo: [],
+    DeviceNames: [], 
+    DeviceInfo: [], 
+    ClientNames: [],  
+    ClientInfo: [],   
     isLoaded: true
   }
 
@@ -33,11 +32,10 @@ class Dashboard extends Component {
     this.getLicenseResourceNames()
     this.getArchivePlanNames()
     this.getArchiveIndexNames()
-    this.getDeviceNames()
+    // this.getDeviceNames()
     this.getClientNames()
 
-    // this.getDeviceNamesInfo()
-    this.getDeviceNamesInfo2()
+    this.getDeviceNamesInfo()
   }
   
   componentDidUpdate() {
@@ -207,7 +205,7 @@ class Dashboard extends Component {
   //   }
   // }
 
-  getDeviceNamesInfo2() {
+  getDeviceNamesInfo() {
     axios.get(`${API_URL}/general/devices`)
       .then((response) => {
         console.log("1st call, devices", response)
@@ -219,26 +217,14 @@ class Dashboard extends Component {
         })
         return Promise.all(promises).then((response) => {
           console.log("=> Promises - from Promise.all", response); // full response
-          const info = response.map(deviceInfo => deviceInfo.data.cleaning)
+          const info = response.map(deviceInfo => deviceInfo.data.cleaning.toString())
           console.log('info:', info)
-
-          const deviceNamesInfo = []
-          for (let i = 0; i < devices.length ; i++) {
-            const output = {
-              device: devices[i],
-              cleaning: info[i] 
-            }
-            deviceNamesInfo.push(output)
-          }
-          console.log("DeviceNamesInfo", deviceNamesInfo)
-          // this.setState({
-          //   DeviceNamesInfo: deviceNamesInfo
-          // })
+          this.setState({
+            DeviceNames: devices,
+            DeviceInfo: info,
+          })
         });
       })
-      // .then((response) => {
-      //   console.log("=> Last .then()", response); // undefined 
-      // });
   }
 
 
@@ -352,7 +338,8 @@ class Dashboard extends Component {
   
   render() {
 
-    console.log("this.state.DeviceNamesInfo", this.state.DeviceNamesInfo)
+    console.log("this.state.DeviceInfo",  this.state.DeviceInfo)
+    console.log("this.state.DeviceNames",  this.state.DeviceNames)
 
     // console.log("Async Get Devices", this.getDevices())
     // console.log("HomePage:",              this.state.HomePage)
@@ -363,7 +350,6 @@ class Dashboard extends Component {
     // console.log("ArchiveIndexNames:",     this.state.ArchiveIndexNames)
     // console.log("DeviceNames:",           this.state.DeviceNames)
     // // this.getDeviceInfo("awst0")
-    // console.log("DeviceInfo - 'awst0':",  this.state.DeviceInfo)
     // // this.getDeviceInfo("awst1")
     // console.log("DeviceInfo - 'awst1':",  this.state.DeviceInfo)
     // console.log("ClientNames:",           this.state.ClientNames)
@@ -386,8 +372,8 @@ class Dashboard extends Component {
           <DeviceTable
             className="dashboard__devices"
             SrvInfo={this.state.SrvInfo}
-            DeviceNamesInfo={this.state.DeviceNamesInfo}
-            DeviceNames={this.state.DeviceNames}/>
+            DeviceNames={this.state.DeviceNames}
+            DeviceInfo={this.state.DeviceInfo}/>
           <Divider/>
     
         </div>
