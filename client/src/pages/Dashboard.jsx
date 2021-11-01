@@ -36,7 +36,8 @@ class Dashboard extends Component {
     this.getDeviceNames()
     this.getClientNames()
 
-    this.getDeviceNamesInfo()
+    // this.getDeviceNamesInfo()
+    this.getDeviceNamesInfo2()
   }
   
   componentDidUpdate() {
@@ -126,95 +127,118 @@ class Dashboard extends Component {
       })
   }
 
-  async getDevices() {
-    console.log("2. getDevices called:")
-    const response = await axios(`${API_URL}/general/devices`)
-    const devices = response.data.map(dev => dev.devices[0].ID)
-    console.log("async getDevices", devices) // ['awst0', 'awst1']
-    // return this.devices = (devices.data) 
-    // return this.devices = (devices)
-    return devices
-  }
+  // async getDevices() {
+  //   console.log("2. getDevices called:")
+  //   const response = await axios(`${API_URL}/general/devices`)
+  //   const devices = response.data.map(dev => dev.devices[0].ID)
+  //   console.log("async getDevices", devices) // ['awst0', 'awst1']
+  //   // return this.devices = (devices.data) 
+  //   // return this.devices = (devices)
+  //   return devices
+  // }
 
-  async getForOneDeviceInfo(deviceID) {
-    console.log("3. getForOneDeviceInfo called:")
-    console.log(`Fetching ${deviceID}`)
-    const DeviceInfoPromise = axios(API_URL + '/general/devices/' + deviceID)
-    return Promise.all([DeviceInfoPromise]).then((values) => {
-      // console.log(values[0].data.cleaning);
-      console.log(`${deviceID}`, values[0].data.cleaning);
-      return values[0].data.cleaning
-    })
-  }
+  // async getForOneDeviceInfo(deviceID) {
+  //   console.log("3. getForOneDeviceInfo called:")
+  //   console.log(`Fetching ${deviceID}`)
+  //   const DeviceInfoPromise = axios(API_URL + '/general/devices/' + deviceID)
+  //   return Promise.all([DeviceInfoPromise]).then((values) => {
+  //     // console.log(values[0].data.cleaning);
+  //     console.log(`${deviceID}`, values[0].data.cleaning);
+  //     return values[0].data.cleaning
+  //   })
+  // }
 
-  async getDeviceNamesInfo() {
-    console.log("1. getDeviceNamesInfo called")
-    try {
-      const devices = await this.getDevices()
-      console.log("getDeviceNamesInfo - devices", devices) // ['awst0', 'awst1']
+  // async getDeviceNamesInfo() {
+  //   console.log("1. getDeviceNamesInfo called")
+  //   try {
+  //     const devices = await this.getDevices()
+  //     console.log("getDeviceNamesInfo - devices", devices) // ['awst0', 'awst1']
 
-      const promises = []
-      devices.forEach((device) => {
-        console.log(`const promises - inside getDeviceNamesInfo ${device}`)
+  //     const promises = []
+  //     devices.forEach((device) => {
+  //       console.log(`const promises - inside getDeviceNamesInfo ${device}`)
 
-        const result = this.getForOneDeviceInfo(device).then((value) => {
-      // console.log(values[0].data.cleaning);
+  //       const result = this.getForOneDeviceInfo(device).then((value) => {
+  //     // console.log(values[0].data.cleaning);
           
-          const cool = []
-          cool.push(value)
-          console.log("cool", cool)
+  //         const cool = []
+  //         cool.push(value)
+  //         console.log("cool", cool)
           
-          console.log("result ->", `${device}: ${value}`);
-          console.log("value", value)
-          promises.push(value)
-          console.log("promises inside result", promises)
-          console.log("devices inside result", devices)
+  //         console.log("result ->", `${device}: ${value}`);
+  //         console.log("value", value)
+  //         promises.push(value)
+  //         console.log("promises inside result", promises)
+  //         console.log("devices inside result", devices)
 
-          const obj = {}
-          devices.forEach((devices, i) => obj[devices] = promises[i])
-          console.log("obj", obj)
+  //         const obj = {}
+  //         devices.forEach((devices, i) => obj[devices] = promises[i])
+  //         console.log("obj", obj)
 
-          const obj2 = []
-          devices.forEach((devices, i) => obj2[devices] = promises[i])
-          console.log("obj2", obj2)
+  //         const obj2 = []
+  //         devices.forEach((devices, i) => obj2[devices] = promises[i])
+  //         console.log("obj2", obj2)
 
-          this.setState({
-            DeviceNamesInfo: obj
-          })
-          // glue them 
-          // return value
-          // return result
-        })   
+  //         this.setState({
+  //           DeviceNamesInfo: obj
+  //         })
+  //         // glue them 
+  //         // return value
+  //         // return result
+  //       })   
 
-        // promises.push(result)
-        // console.log("promises", promises)
+  //       // promises.push(result)
+  //       // console.log("promises", promises)
 
-        //promises.push(this.getForOneDeviceInfo(device)) // runs API Promise.all and returns 
-      })
+  //       //promises.push(this.getForOneDeviceInfo(device)) // runs API Promise.all and returns 
+  //     })
 
-      console.log("getDeviceNamesInfo - promises:", promises)
+  //     console.log("getDeviceNamesInfo - promises:", promises)
 
-      // Promise.resolve(promises).then((response) => {
-      //   console.log("response", response.data)
-      // })
+  //     // Promise.resolve(promises).then((response) => {
+  //     //   console.log("response", response.data)
+  //     // })
 
-      // const allResults = Promise.all(promises).then((response) => response.data)
-      // console.log("getDeviceNamesInfo - allResults:", allResults)
+  //     // const allResults = Promise.all(promises).then((response) => response.data)
+  //     // console.log("getDeviceNamesInfo - allResults:", allResults)
 
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
   getDeviceNamesInfo2() {
     axios.get(`${API_URL}/general/devices`)
       .then((response) => {
-        // return axios.get(...); // using response.data
         console.log("1st call, devices", response)
+        const devices = response.data.map(dev => dev.devices[0].ID)
+        console.log("=> devices, 1st call", devices)   // ['awst0', 'awst1']
+        const promises = []
+        devices.forEach((device) => {
+          promises.push(axios.get(`${API_URL}/general/devices/${device}`)) // "http://localhost:8080/general/devices/awst0"
+        })
+        return Promise.all(promises).then((response) => {
+          console.log("=> Promises - from Promise.all", response); // full response
+          const info = response.map(deviceInfo => deviceInfo.data.cleaning)
+          console.log('info:', info)
+
+          const deviceNamesInfo = []
+          for (let i = 0; i < devices.length ; i++) {
+            const output = {
+              device: devices[i],
+              cleaning: info[i] 
+            }
+            deviceNamesInfo.push(output)
+          }
+          console.log("DeviceNamesInfo", deviceNamesInfo)
+          // this.setState({
+          //   DeviceNamesInfo: deviceNamesInfo
+          // })
+        });
       })
-      .then((response) => {
-        console.log('Response', response);
-      });
+      // .then((response) => {
+      //   console.log("=> Last .then()", response); // undefined 
+      // });
   }
 
 
@@ -328,7 +352,7 @@ class Dashboard extends Component {
   
   render() {
 
-    console.log("Device Status", this.state.DeviceNamesInfo)
+    console.log("this.state.DeviceNamesInfo", this.state.DeviceNamesInfo)
 
     // console.log("Async Get Devices", this.getDevices())
     // console.log("HomePage:",              this.state.HomePage)
