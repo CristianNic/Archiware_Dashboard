@@ -13,13 +13,13 @@ class SrvInfoTable extends Component {
       
     return (
       <section className="srvinfo">
-        {/* <h1>/general/srvinfo</h1> */}
+        <h3 className="srvinfo__heading">P5 Server Info</h3>
         <div className="srvinfo__table-wrapper">
           <Table compact>
             <Table.Header>
-              <Table.Row>
+              {/* <Table.Row>
                 <Table.HeaderCell colSpan='8'>/general/srvinfo</Table.HeaderCell>
-              </Table.Row>
+              </Table.Row> */}
             </Table.Header>
             <Table.Header>
               <Table.Row>
