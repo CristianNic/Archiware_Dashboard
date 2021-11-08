@@ -2,6 +2,12 @@
   &__table-wrapper {
     width: 900px;
   }
+	&__heading {
+		margin-bottom: 3px;
+		font-weight: bold;
+		color: rgb(2, 105, 132);
+		// color: rgb(2, 88, 110); // darker
+	}
 }
 
 h1 {
