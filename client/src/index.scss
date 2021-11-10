@@ -9,8 +9,11 @@
 
 /* Components */
 @import "./components/Controls_Sandbox/Controls_Sandbox";
+@import "./components/Settings/Settings";
 @import "./components/Tables/SrvInfo/SrvInfo";
 @import "./components/Tables/Device/Device";
+@import "./components/Tables/LicenseResource/LicenseResource";
+
 
 /* Semantic UI */
 @import "semantic-ui-css/semantic.min.css";
