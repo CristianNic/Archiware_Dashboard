@@ -1,15 +1,34 @@
 import React, { Component } from "react";
-import { Button, Divider, Table } from 'semantic-ui-react';
+import axios from 'axios';
+import { API_URL, auth } from '../../../utils/Auth';
+import { Table } from 'semantic-ui-react';
 
 class SrvInfoTable extends Component {
 
   state = {
-
+    SrvInfo: []
   }
 
+  componentDidMount() {
+    this.getServerInfo()
+  }
+
+  getServerInfo() {
+    axios
+      .get(`${API_URL}/general/srvinfo`, auth )
+      .then((response) => {
+        this.setState({
+          SrvInfo: response.data,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error.response.data);
+      })
+  }
+  
   render() {
 
-    const { SrvInfo } = this.props
+    const { SrvInfo } = this.state
       
     return (
       <section className="srvinfo">
@@ -44,15 +63,12 @@ class SrvInfoTable extends Component {
                 <Table.Cell>{SrvInfo.port}</Table.Cell>
                 <Table.Cell>{SrvInfo.uptime}</Table.Cell>
               </Table.Row>
-            <Table.Row></Table.Row>
             </Table.Body>
           </Table>
         </div>
       </section>
     )
   }
-
 }
-
 
 export default SrvInfoTable
