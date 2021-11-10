@@ -34,7 +34,6 @@ class LicenseResourceTable extends Component {
       .then((response) => {
         console.log(response.data.resources)
         this.setState({
-        // LicenseResourceNames: licenseResourceNames
         LicenseResourceNames: response.data.resources
         })
       })

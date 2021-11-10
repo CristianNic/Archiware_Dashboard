@@ -1,53 +1,80 @@
 import React, { Component } from "react";
-import { Button, Divider, Icon, Table, TransitionablePortal } from 'semantic-ui-react';
-
-// const colors = [ "red", "green" ]
+import axios from 'axios';
+import { API_URL, auth } from '../../../utils/Auth';
+import { Icon, Table } from 'semantic-ui-react';
 
 class DeviceTable extends Component {
 
   state = {
-    deviceNameInfo: [["awst0", "awst1"], ["true", "false"]],  // can this be passed 
+    deviceNameInfo: [["awst0", "awst1"], ["true", "false"]],
     deviceNameInfo2: [{ device: "awst0", cleaning: true },
-                      { device: "awst1", cleaning: false }]
+                      { device: "awst1", cleaning: false }],
+    DeviceNames: [],
+    DeviceInfo: [],
+    DeviceNamesInfo: []
   }
 
-  // componentDidMount() {
-  //   this.formDeviceNamesInfoObj()
-  // }
+  componentDidMount() {
+    this.getDeviceNamesInfo()
+  }
 
-  // formDeviceNamesInfoObj() {
-  //   const deviceNamesInfo = []
-  //   for (let i = 0; i < this.props.DeviceNames.length; i++) {
-  //     const output = {
-  //       device: this.props.DeviceNames[i],
-  //       cleaning: this.props.DeviceInfo[i]
-  //     }
-  //     deviceNamesInfo.push(output)
-  //   }
-  //   // console.log("obj", deviceNamesInfo)
-  //   return deviceNamesInfo
-  // }
+  getDeviceNamesInfo() {
+    axios.get(`${API_URL}/general/devices`, auth)
+      .then((response) => {
+        const devices = response.data.map(dev => dev.devices[0].ID)
+        const promises = []
+        devices.forEach((device) => {
+          promises.push(axios.get(`${API_URL}/general/devices/${device}`, auth))
+        })
+        return Promise.all(promises).then((response) => {
+          const info = response.map(deviceInfo => deviceInfo.data.cleaning)
+          const devicesInfoArray = []
+          for (let i = 0; i < devices.length; i++) {
+            const obj = {
+              device: devices[i],
+              cleaning: info[i]
+            }
+            devicesInfoArray.push(obj)
+          }
+          this.setState({
+            DeviceNamesInfo: devicesInfoArray
+          })
+        });
+      })
+  }
+
+  getDeviceNames() {  
+    axios
+      .get(`${API_URL}/general/devices`, )
+      .then((response) => {
+        // console.log("response:", response.data)
+        const devices = response.data.map(dev => dev.devices[0].ID)
+        // const id = devices.map(dev => dev.devices)
+        this.setState({
+          DeviceNames: devices,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error.response.data);
+      })
+  }
+
+  getDeviceInfo(deviceID) {
+    // Better if it loops through the drives, makes a call for each, populating an array, see getDeviceNamesInfo()
+    axios
+      .get(`${API_URL}/general/devices/${deviceID}`) // awst0 or awst1
+      .then((response) => {
+      console.log(response)
+        this.setState({
+          DeviceInfo: response.data,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error.response.data);
+      })
+  }
 
   render() {
-    
-    const { SrvInfo, DeviceNames, DeviceInfo, DeviceNamesInfo,
-      DeviceNamesInfo2, DeviceNamesInfoNew, workingArray } = this.props
-    // console.log("DeviceTable Component - DeviceInfo:", DeviceInfo)
-    // console.log("DeviceTable Component - DeviceNamesInfo:", DeviceNamesInfo[0])
-    
-    // console.log("Table - DeviceNamesInfo2Dash", DeviceNamesInfo2Dash)
-    // console.log("Table - DeviceNamesInfoNew", DeviceNamesInfoNew)
-
-    // console.log("=>=> obj", this.formDeviceNamesInfoObj())
-    // console.log("=> obj-1", this.formDeviceNamesInfoObj().map(device => device[0]))
-    // console.log("device 1", this.formDeviceNamesInfoObj()[0])
-    // console.log("device 1 - device", this.formDeviceNamesInfoObj().map(devices => devices.device)[0])
-    // console.log("device 1 - clean", this.formDeviceNamesInfoObj().map(clean => clean.cleaning))
-
-    // console.log("deviceNameInfo", this.state.deviceNameInfo)
-    // console.log("deviceNameInfo", this.state.deviceNameInfo)
-    // console.log("NameInfo",this.state.deviceNameInfo.map(deviceNameInfo => deviceNameInfo[0]))  // ['awst0', 'true'] 
-    // console.log("=>=>test", this.state.deviceNameInfo.map(deviceNameInfo => deviceNameInfo[0])[0]) // awst0
       
     return (
       <section className="device">
@@ -68,7 +95,7 @@ class DeviceTable extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {DeviceNamesInfo.map(device =>
+              {this.state.DeviceNamesInfo.map(device =>
                 <Table.Row>
                   <Table.Cell>{device.device}</Table.Cell>                 
                   {device.cleaning === true ?
