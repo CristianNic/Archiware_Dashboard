@@ -3,36 +3,57 @@ import axios from 'axios';
 import { API_URL, auth } from '../../../utils/Auth';
 import { Table } from 'semantic-ui-react';
 
-class SrvInfoTable extends Component {
+// const options = {
+//   headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }
+// }
+  
+class SrvInfo extends Component {
 
   state = {
-    SrvInfo: []
+    SrvInfo: [],
+    Uptime: []
   }
 
   componentDidMount() {
     this.getServerInfo()
+    // this.getServerInfoHeaders()
+  }
+
+  getServerInfoHeaders() {
+    // Manually set Basic Auth Header  
   }
 
   getServerInfo() {
+    // axios({headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }})
     axios
-      .get(`${API_URL}/general/srvinfo`, auth )
+      // .get(`${API_URL}/general/srvinfo`, { headers: { Authentication: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k="} }  )
+      // .get(`${API_URL}/general/srvinfo`, auth)
+      // .get(`http://localhost:8080/getAPIResponseMunki_v1`, auth)
+      .get(`http://localhost:8090/general/srvinfo`, auth)
       .then((response) => {
+        // console.log("SrvInfo", response)
+        // console.log("Uptime", response.data.uptime)
+        const uptime = new Date(response.data.uptime * 1000).toISOString().substr(11, 8)
+        // console.log("Uptime", uptime)
         this.setState({
           SrvInfo: response.data,
+          Uptime: uptime
         })
       })
       .catch((error) => {
-        console.log('error:', error.response.data);
+        // console.log('error:', error.response.data);
+        console.log('error:', error);
       })
   }
   
   render() {
 
-    const { SrvInfo } = this.state
+    const { SrvInfo, Uptime } = this.state
       
     return (
       <section className="srvinfo">
-        <h3 className="srvinfo__heading">P5 Server Info</h3>
+        {/* <h3 className="srvinfo__heading">P5 Server Info</h3> */}
+        <h3 className="srvinfo__heading">Server Info --> Munki.local</h3>
         <div className="srvinfo__table-wrapper">
           <Table compact>
             <Table.Header>
@@ -61,7 +82,7 @@ class SrvInfoTable extends Component {
                 <Table.Cell>{SrvInfo.lexxvers}</Table.Cell>
                 <Table.Cell>{SrvInfo.platform}</Table.Cell>
                 <Table.Cell>{SrvInfo.port}</Table.Cell>
-                <Table.Cell>{SrvInfo.uptime}</Table.Cell>
+                <Table.Cell>{Uptime}</Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
@@ -71,4 +92,4 @@ class SrvInfoTable extends Component {
   }
 }
 
-export default SrvInfoTable
+export default SrvInfo
