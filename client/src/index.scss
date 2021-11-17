@@ -6,13 +6,19 @@
 
 /* Pages */
 @import "./pages/Dashboard";
+@import "./pages/Dashboardv2";
 
 /* Components */
 @import "./components/Controls_Sandbox/Controls_Sandbox";
 @import "./components/Settings/Settings";
+
 @import "./components/Tables/SrvInfo/SrvInfo";
-@import "./components/Tables/Device/Device";
-@import "./components/Tables/LicenseResource/LicenseResource";
+@import "./components/Tables/Client/Client";
+@import "./components/Tables/Devices/Devices";
+@import "./components/Tables/LicenseResources/LicenseResources";
+@import "./components/Tables/Jukebox/Jukebox";
+@import "./components/Tables/Pool/Pool";
+@import "./components/Tables/Jobs/Jobs";
 
 
 /* Semantic UI */
