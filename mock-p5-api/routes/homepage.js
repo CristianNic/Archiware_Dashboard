@@ -3,7 +3,7 @@ const homepage = express.Router();
 const fs = require("fs");
 
 function loadHomePageData() {
-	return fs.readFileSync("./data/get-home-page", "utf8");
+	return fs.readFileSync("./data/get-home-page.json", "utf8");
 }
 
 homepage.get("/", (req, res) => {
