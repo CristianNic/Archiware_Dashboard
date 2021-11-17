@@ -1,0 +1,64 @@
+.dashboard {
+	background-color: rgb(211, 211, 211);
+  color: black;
+	&__container {
+		display: flex;
+		flex-direction: column;
+		// max-width: 1440px; // 1200px vs 1440px large laptop
+    // max-width: 1200px;
+    max-width: 1000px;
+		margin: 0 auto;
+		// order: dashed 5px blue;
+    padding-bottom: 1000px;
+    padding-top: 20px;
+	}
+  &__refresh {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    justify-content: flex-end;
+    width: 1000px;    
+    &-timer {
+      display: flex;
+      flex-direction: row;
+      // width: 300px;
+    }
+  }
+  &__srvinfo {
+    width: 800px; // not applied by semantic ui
+
+  }
+  &__devices {
+    width: 200px;  // not applied 
+  }
+
+}
+.bold {
+	font-weight: 600;
+}
+.bolder {
+	font-weight: 900;
+}
+.black {
+	color: black;
+}
+.underline {
+	text-decoration: underline;
+}
+
+.button.ui.button {
+  color:darkblue;
+}
+
+.button {
+  width: 100px;
+}
+
+.space {
+  margin-bottom: 100px;
+}
+
+
+h1 {
+  font-size: 20px;
+}
