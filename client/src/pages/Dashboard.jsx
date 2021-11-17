@@ -6,9 +6,16 @@ import { Divider } from 'semantic-ui-react';
 // import CountDownTimer from '../components/CountDownTimer/CountDownTimer'
 // const hoursMinSecs = { hours: 0, minutes: 0, seconds: 7 }
 // import Refresh from "../components/Refresh/Refresh";
-import SrvInfoTable from "../components/Tables/SrvInfo/SrvInfo";
-import DeviceTable from "../components/Tables/Device/Device";
-import LicenseResourceTable from "../components/Tables/LicenseResource/LicenseResource";
+import SrvInfo from "../components/Tables/SrvInfo/SrvInfo";
+import Client from "../components/Tables/Client/Client";
+import Devices from "../components/Tables/Devices/Devices";
+import LicenseResources from "../components/Tables/LicenseResources/LicenseResources";
+import Jukebox from "../components/Tables/Jukebox/Jukebox";
+import Pool from "../components/Tables/Pool/Pool";
+import Jobs from "../components/Tables/Jobs/Jobs";
+
+const USERNAME = process.env.REACT_APP_USERNAME;
+const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 class Dashboard extends Component {
   
@@ -22,7 +29,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.getHomePage()
+    // this.getHomePage()
   }
   
   componentDidUpdate() {
@@ -116,7 +123,10 @@ class Dashboard extends Component {
   
   render() {
 
-    console.log("Dashboard - API_URL", API_URL)
+    // console.log("Dashboard - API_URL", API_URL)
+    // console.log("Dashboard - USERNAME", USERNAME)
+    // console.log("Dashboard - PASSWORD", PASSWORD)
+    // console.log("Dashboard - auth", auth)
     
     return (
       <section className="dashboard">
@@ -124,21 +134,21 @@ class Dashboard extends Component {
           {/* <Refresh
             className="dashboard__refresh"
             refreshData={this.refreshData}/> */}
-          <Divider/>
-          <SrvInfoTable
-            className="dashboard__srvinfo"
-            SrvInfo={this.state.SrvInfo}
-          />
-          <Divider/>
-          <DeviceTable
-            className="dashboard__devices"
-            DeviceNames={this.state.DeviceNames}
-            DeviceInfo={this.state.DeviceInfo}
-          />
-          <Divider/>
-          <LicenseResourceTable
-            className="dashboard__devices" />
-          <Divider/>
+            <Divider/>
+          <SrvInfo className="dashboard__srvinfo"/>
+            <Divider/>
+          <Client className="dashboard__client"/>
+            <Divider/>
+          <Devices className="dashboard__devices"/>
+            <Divider/>
+          <LicenseResources className="dashboard__licenseResources" />
+            <Divider/>
+          <Jukebox className="dashboard__jukebox" />
+            <Divider />         
+          <Pool className="dashboard__pool" />
+            <Divider />
+          <Jobs className="dashboard__jobs" />
+            <Divider/>
           
         </div>
       </section>
