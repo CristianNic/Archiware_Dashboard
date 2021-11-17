@@ -3,7 +3,6 @@ const USERNAME = process.env.REACT_APP_USERNAME;
 const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 export const auth = {
-	// authConfig  // configAuth // auth
 	auth: {
 		username: USERNAME,
 		password: PASSWORD,
@@ -11,7 +10,7 @@ export const auth = {
 	headers: {
 		"Access-Control-Allow-Origin": "*",
 		"Access-Control-Allow-Credentials": "true",
-		// 'Access-Control-Allow-Headers': 'origin',
+		"Access-Control-Allow-Headers": "origin",
 	},
 	// withCredentials : false,
 	crossDomain: true,
