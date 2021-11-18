@@ -1,21 +1,27 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Table } from 'semantic-ui-react';
+import { Table, TableCell, TableRow } from 'semantic-ui-react';
 import { API_URL, auth } from '../../../utils/Auth';
+
+const USERNAME = process.env.REACT_APP_USERNAME;
+const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 class Jukebox extends Component {
 
   state = {    
-    // LicenseResourceNamesInfoMockUp: [{ resourceID: "ArchivePlan" }, { licenses: -1 },
-    //                                  { resourceID: "BackupPlan" }, { licenses: 0 },
-    //                                  { resourceID: "SyncPlan" }, { licenses: 5 }],
-    ResourceLicenses: [],
-    // LicenseResourceNames: [],
-    LicenseResourceInfo: [],
+    JukeboxNames: [],
+    JukeboxInfo: [],
+    JukeboxVolumes: [],
+    JukeboxNamesInfoVolumes: [],
+    JukeboxNamesInfoVolumesMock: [
+      { id: "awjb0", slotcount: "24", volumeIDs: ["10441", "10421", "10478"] }],
   }
 
   componentDidMount() {
-    // this.getLicenseResourceNamesInfo()
+    this.getJukeboxNames()
+    // this.getJukeboxInfo()
+    this.getJukeboxVolumes()
+    this.getJukeboxVolumesPerSlot()
   }
 
   getLicenseResourceNamesInfo() {
@@ -90,16 +96,133 @@ class Jukebox extends Component {
       }) 
   }
 
+  getJukeboxNames() {
+    axios
+      .get(`${API_URL}/general/jukeboxes`, auth)
+      .then((response) => {
+        // console.log("response:", response)
+        // console.log("response:", response.data.jukeboxes)
+        const jukeboxes = response.data.jukeboxes.map(device => device.ID)
+        // console.log('jukeboxes:', jukeboxes)
+        this.setState({
+          JukeboxNames: jukeboxes,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      })
+  }
+
+  getJukeboxInfo() {
+    axios
+      .get(`${API_URL}/general/jukeboxes/awjb0`, auth)
+      .then((response) => {
+        // console.log("response:", response)
+        // const jukeboxes = response.data.jukeboxes.map(device => device.ID)
+        // console.log('jukeboxes:', jukeboxes)
+        this.setState({
+          JukeboxInfo: response.data,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      })
+  }
+
+  getJukeboxVolumes() {
+    axios
+      .get(`${API_URL}/general/jukeboxes/awjb0/volumes`, auth)
+      .then((response) => {
+        // console.log("Jukebox volumes response:", response)
+        const jukeboxVolumeIDs = response.data.volumes.map(device => device.ID)
+        // console.log('jukeboxes:', jukeboxVolumeIDs)
+        this.setState({
+          JukeboxVolumes: jukeboxVolumeIDs,
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      })
+  }
+
+  getJukeboxVolumesPerSlot() {
+    axios
+      .get(`${API_URL}/general/jukeboxes/awjb0/volumes`, {
+        // auth: {
+        //   username: USERNAME,
+        //   password: PASSWORD,
+        // },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "origin",
+          "slotID": "10", // cannot be 0 
+        },
+        crossDomain: true,
+      })
+      .then((response) => {
+        console.log("getJukeboxVolumesPerSlot response:", response)
+        // const jukeboxVolumeIDs = response.data.volumes.map(device => device.ID)
+        // console.log('jukeboxes:', jukeboxVolumeIDs)
+        // this.setState({
+        //   JukeboxVolumes: jukeboxVolumeIDs,
+        // })
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      })
+  }
+
   render() {
 
-    // const { ResourceLicenses } = this.state
-    // console.log('ResourceLicenses:', ResourceLicenses)
+    const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
+    console.log("JukeboxNames", JukeboxNames)
+    console.log('JukeboxInfo:', JukeboxInfo)
+    console.log('JukeboxVolumes:', JukeboxVolumes)
+    // console.log('JukeboxNamesInfoVolumes:', JukeboxNamesInfoVolumes)
 
     return (
       <section className="jukebox">
         {/* <h3 className="jukebox__heading">P5 Jukebox Info</h3> */}
         <h3 className="jukebox__heading">Jukebox Info</h3>
         <div className="jukebox__table-wrapper">
+          <Table compact>
+            <Table.Header>
+              {/* GET JukeboxNames */}
+                <Table.HeaderCell>Name</Table.HeaderCell>  
+              {/* GET JukeboxInfo */}
+              <Table.HeaderCell>Slotcount</Table.HeaderCell>
+              <Table.HeaderCell>Slot</Table.HeaderCell>
+              {/* GET JukeboxVolumes */}
+                <Table.HeaderCell>Volumes</Table.HeaderCell>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>Jelly</Table.Cell>
+                <Table.Cell>100</Table.Cell>
+                <Table.Cell>1</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>2</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>3</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
+              </Table.Row>
+              {/* <TableRow>
+                <Table.Cell>
+                  Total
+                </Table.Cell>
+              </TableRow> */}
+            </Table.Body>
+          </Table>
+
           <Table compact>
             <Table.Header>
               {/* GET JukeboxNames */}
@@ -121,7 +244,6 @@ class Jukebox extends Component {
               </Table.Row>
             </Table.Body>
           </Table>
-          {/* <h4 className="licenseResource__heading">*Need official response format from server to extract info</h4> */}
         </div>
       </section>
     )
