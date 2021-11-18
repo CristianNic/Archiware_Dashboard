@@ -1,4 +1,7 @@
-export const API_URL = process.env.REACT_APP_API_URL;
+// export const API_URL = process.env.REACT_APP_API_URL;
+
+export const API_URL = process.env.REACT_APP_BACKEND_URL; // http://localhost:8090
+
 const USERNAME = process.env.REACT_APP_USERNAME;
 const PASSWORD = process.env.REACT_APP_PASSWORD;
 
@@ -15,3 +18,4 @@ export const auth = {
 	// withCredentials : false,
 	crossDomain: true,
 };
+

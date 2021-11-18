@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Table, Rating } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react'; // Rating
 import { API_URL, auth } from '../../../utils/Auth';
 
 class Jobs extends Component {
@@ -224,7 +224,14 @@ class Jobs extends Component {
 
 export default Jobs
 
-
+    // <Table.Footer>
+    //   <Table.Row>
+    //     <Table.HeaderCell>3 People</Table.HeaderCell>
+    //     <Table.HeaderCell>2 Approved</Table.HeaderCell>
+    //     <Table.HeaderCell />
+    //   </Table.Row>
+    // </Table.Footer >
+      
   // Column where you can mark what you're watching - Binocular icon =) each has a back end number 
   // then - can be sortable - place to top < Rating size = "huge" />
 

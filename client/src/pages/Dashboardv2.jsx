@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { API_URL, auth } from '../utils/Auth';
-import { Divider, Tab, Menu } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
+// import { Tab, Menu } from 'semantic-ui-react';
 // import Timer from '../components/Timer/Timer'
 // import CountDownTimer from '../components/CountDownTimer/CountDownTimer'
 // const hoursMinSecs = { hours: 0, minutes: 0, seconds: 7 }
@@ -13,8 +14,8 @@ import Jukebox from "../components/Tables/Jukebox/Jukebox";
 import Pool from "../components/Tables/Pool/Pool";
 import Jobs from "../components/Tables/Jobs/Jobs";
 
-const USERNAME = process.env.REACT_APP_USERNAME;
-const PASSWORD = process.env.REACT_APP_PASSWORD;
+// const USERNAME = process.env.REACT_APP_USERNAME;
+// const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 class Dashboard extends Component {
   

@@ -7,15 +7,15 @@ import { Divider } from 'semantic-ui-react';
 // const hoursMinSecs = { hours: 0, minutes: 0, seconds: 7 }
 // import Refresh from "../components/Refresh/Refresh";
 import SrvInfo from "../components/Tables/SrvInfo/SrvInfo";
-import Client from "../components/Tables/Client/Client";
+// import Client from "../components/Tables/Client/Client";
 import Devices from "../components/Tables/Devices/Devices";
-import LicenseResources from "../components/Tables/LicenseResources/LicenseResources";
+// import LicenseResources from "../components/Tables/LicenseResources/LicenseResources";
 import Jukebox from "../components/Tables/Jukebox/Jukebox";
-import Pool from "../components/Tables/Pool/Pool";
-import Jobs from "../components/Tables/Jobs/Jobs";
+// import Pool from "../components/Tables/Pool/Pool";
+// import Jobs from "../components/Tables/Jobs/Jobs";
 
-const USERNAME = process.env.REACT_APP_USERNAME;
-const PASSWORD = process.env.REACT_APP_PASSWORD;
+// const USERNAME = process.env.REACT_APP_USERNAME;
+// const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 class Dashboard extends Component {
   
@@ -135,20 +135,20 @@ class Dashboard extends Component {
             className="dashboard__refresh"
             refreshData={this.refreshData}/> */}
             <Divider/>
-          <SrvInfo className="dashboard__srvinfo"/>
-            <Divider/>
-          <Client className="dashboard__client"/>
-            <Divider/>
-          <Devices className="dashboard__devices"/>
-            <Divider/>
-          <LicenseResources className="dashboard__licenseResources" />
-            <Divider/>
+          {/* <SrvInfo className="dashboard__srvinfo"/>
+            <Divider/> */}
+          {/* <Client className="dashboard__client"/>
+            <Divider/> */}
+          {/* <Devices className="dashboard__devices"/>
+            <Divider/> */}
+          {/* <LicenseResources className="dashboard__licenseResources" />
+            <Divider/> */}
           <Jukebox className="dashboard__jukebox" />
             <Divider />         
-          <Pool className="dashboard__pool" />
-            <Divider />
-          <Jobs className="dashboard__jobs" />
-            <Divider/>
+          {/* <Pool className="dashboard__pool" />
+            <Divider /> */}
+          {/* <Jobs className="dashboard__jobs" />
+            <Divider/> */}
           
         </div>
       </section>

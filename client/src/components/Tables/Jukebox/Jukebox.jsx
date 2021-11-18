@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { Table, TableCell, TableRow } from 'semantic-ui-react';
 import { API_URL, auth } from '../../../utils/Auth';
 
-const USERNAME = process.env.REACT_APP_USERNAME;
-const PASSWORD = process.env.REACT_APP_PASSWORD;
+// const USERNAME = process.env.REACT_APP_USERNAME;
+// const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 class Jukebox extends Component {
 
@@ -22,79 +22,6 @@ class Jukebox extends Component {
     this.getJukeboxInfo()
     // this.getJukeboxVolumes()
     this.getJukeboxVolumesPerSlot()
-  }
-  
-
-  getLicenseResourceNamesInfo() {
-    axios
-      .get(`${API_URL}/license/resources`, auth)
-      .then(async (response) => {
-        // console.log("getLicenseResourceName", response)
-        const resources = response.data.resources.map(resource => resource.ID)
-        // console.log("resources", resources)
-        const promises = []
-        resources.forEach((resource) => {
-          promises.push(axios.get(`${API_URL}/license/resources/${resource}`, auth))
-        })
-        return Promise.all(promises).then((response) => {
-          // console.log("Promises.all response", response)
-          const info = response.map(resourceInfo => resourceInfo.data.licenses)
-          // console.log('info:', info)
-          const infoFormatted = []
-          info.forEach((license) => {
-            if (license === -1) { 
-              infoFormatted.push(`unlimited`) // \u221e // -1
-            } else if (license === 0) {
-              infoFormatted.push(`${license}`)  
-            } else if (license !== isNaN) {
-              infoFormatted.push(`${license}`)
-            } else {
-              infoFormatted.push("fail")
-            }
-          })
-          // console.log("infoFormatted", infoFormatted)
-          const resourceLicenses = []  // resources infoFormatted
-          for (let i = 0; i < resources.length; i++) {
-            const obj = {
-              resourceID: resources[i],
-              licenses: infoFormatted[i]
-            }
-            resourceLicenses.push(obj)
-          }
-          console.log('resourceLicenses:', resourceLicenses)
-          this.setState({
-            ResourceLicenses: resourceLicenses
-          })
-        })
-      })
-  }
-  
-  getLicenseResourceNames() {
-    axios
-      .get(`${API_URL}/license/resources`, auth)
-      .then((response) => {
-        // console.log(response.data.resources) // names listed 
-        this.setState({
-        LicenseResourceNames: response.data.resources
-        })
-      })
-      .catch((error) => {
-        console.log('error:', error.response.data);
-      })
-  }
-
-  getLicenseResourceInfo() {
-    axios
-      .get(`${API_URL}/license/resources/ArchivePlan`, auth)
-      .then((response) => {
-        console.log(response.data.licenses) // random number 
-        this.setState({
-        LicenseResourceInfo: response.data.resources
-        })
-      })
-      .catch((error) => {
-        console.log('error:', error.response.data);
-      }) 
   }
 
   getJukeboxNames() {
@@ -184,7 +111,6 @@ class Jukebox extends Component {
             //     "slotID": "10", // cannot be 0 
             //   },
             // })
-
             console.log('slotcount:', slotcount) 
             jukeboxes.forEach((jukebox) => {
               volumesPerSlotIDPromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}/1`))
@@ -195,7 +121,6 @@ class Jukebox extends Component {
           })
         })
       })
-
     // first call - no header, get a list of all volumes
     // next calls each have a different clot in the header
     axios
@@ -216,7 +141,7 @@ class Jukebox extends Component {
 
   render() {
 
-    const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
+    // const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
     // console.log("JukeboxNames", JukeboxNames)
     // console.log('JukeboxInfo:', JukeboxInfo)
     // console.log('JukeboxVolumes:', JukeboxVolumes)

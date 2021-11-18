@@ -9,13 +9,15 @@ class Devices extends Component {
     deviceNameInfo: [["awst0", "awst1"], ["true", "false"]],
     deviceNameInfo2: [{ device: "awst0", cleaning: true },
                       { device: "awst1", cleaning: false }],
-    DeviceNames: [],
-    DeviceInfo: [],
-    DeviceNamesInfo: []
+    DeviceNamesInfo: [],
+    // DeviceNames: [],
+    // DeviceInfo: [],
   }
 
   componentDidMount() {
     this.getDeviceNamesInfo()
+    this.getDeviceNames()
+    // this.getDeviceInfo()
   }
 
   getDeviceNamesInfo() {
@@ -23,7 +25,8 @@ class Devices extends Component {
       .get(`${API_URL}/general/devices`, auth)
       .then(async (response) => {
         // console.log("DeviceNames response", response)
-        const devices = response.data.map(dev => dev.devices[0].ID)
+        // const devices = response.data.map(dev => dev.devices[0].ID)
+        const devices = response.data.devices.map(device => device.ID)
         // console.log('devices:', devices)
         const promises = []
         devices.forEach((device) => {
@@ -49,27 +52,29 @@ class Devices extends Component {
   }
 
   getDeviceNames() {  
-    axios
-      .get(`${API_URL}/general/devices`, )
-      .then((response) => {
-        // console.log("response:", response.data)
-        const devices = response.data.map(dev => dev.devices[0].ID)
-        // const id = devices.map(dev => dev.devices)
-        this.setState({
-          DeviceNames: devices,
-        })
+  axios
+    .get(`${API_URL}/general/devices`, auth)
+    // .get(`http://localhost:8080/general/devices`, auth)
+    .then((response) => {
+      // console.log("response:", response)
+      // console.log("response:", response.data.devices)
+      const devices = response.data.devices.map(device => device.ID)
+      // console.log('devices:', devices)
+      this.setState({
+        DeviceNames: devices,
       })
-      .catch((error) => {
-        console.log('error:', error.response.data);
-      })
+    })
+    .catch((error) => {
+      console.log('error:', error);
+    })
   }
 
-  getDeviceInfo(deviceID) {
-    // Better if it loops through the drives, makes a call for each, populating an array, see getDeviceNamesInfo()
+  getDeviceInfo() {
+    // console.log("getDeviceInfo()")
     axios
-      .get(`${API_URL}/general/devices/${deviceID}`) // awst0 or awst1
+      .get(`${API_URL}/general/devices/awst0`, auth) // awst0 or awst1
       .then((response) => {
-      console.log(response)
+      // console.log("response", response)
         this.setState({
           DeviceInfo: response.data,
         })
@@ -81,6 +86,9 @@ class Devices extends Component {
 
   render() {
       
+    const { DeviceNamesInfo } = this.state
+    // console.log('DeviceNamesInfo:', DeviceNamesInfo)
+
     return (
       <section className="devices">
         {/* <h3 className="device__heading">P5 Device Check</h3> */}
@@ -101,16 +109,72 @@ class Devices extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {this.state.DeviceNamesInfo.map(device =>
+              {/* {this.state.DeviceNamesInfo.map(device =>
                 <Table.Row>
                   <Table.Cell>{device.device}</Table.Cell>                 
                   {device.cleaning === true ?
                     (<Table.Cell positive><Icon name='checkmark' />{device.cleaning.toString()}</Table.Cell>)
                   : (<Table.Cell negative><Icon name='close'/>{device.cleaning.toString()}</Table.Cell>)}
                 </Table.Row>                  
-              )}
+              )} */}
+
+              {Object.keys(DeviceNamesInfo).length === 0 ?
+                (<Table.Row>
+                  <Table.Cell>Null</Table.Cell>
+                  <Table.Cell>Null</Table.Cell>
+                </Table.Row>)
+              :
+                (DeviceNamesInfo.map(device =>
+                  <Table.Row>
+                    <Table.Cell>{device.device}</Table.Cell>                 
+                    {device.cleaning === true ?
+                      (<Table.Cell positive><Icon name='checkmark' />{device.cleaning.toString()}</Table.Cell>)
+                    : (<Table.Cell negative><Icon name='close'/>{device.cleaning.toString()}</Table.Cell>)}
+                  </Table.Row>                  
+                ))
+              }
+              
+              {/* {Object.keys(DeviceNamesInfo).length === 0 ?
+                (<Table.Row>
+                  <Table.Cell>Null</Table.Cell>
+                  <Table.Cell>Null</Table.Cell>
+                </Table.Row>)
+              :
+                (DeviceNamesInfo.map(device =>
+                  <Table.Row>
+                    <Table.Cell>{device.device}</Table.Cell>                 
+                    {device.cleaning === true ?
+                      (<Table.Cell negative><Icon name='close' />Yes</Table.Cell>)
+                    : (<Table.Cell positive><Icon name='checkmark'/>No</Table.Cell>)}  
+                  </Table.Row>                  
+                ))
+              }  */}
             </Table.Body>
           </Table>
+
+          
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Device</Table.HeaderCell>
+                <Table.HeaderCell>Cleaning Required</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>demo0</Table.Cell>
+                <Table.Cell positive><Icon name='checkmark' />No</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>demo1</Table.Cell>
+                <Table.Cell negative><Icon name='close'/>Yes</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+
+          <h3 className="devices__heading">Which table looks better?</h3>
+
         </div>
       </section>
     )

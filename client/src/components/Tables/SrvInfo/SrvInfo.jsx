@@ -11,12 +11,14 @@ class SrvInfo extends Component {
 
   state = {
     SrvInfo: [],
-    Uptime: []
+    Uptime: [],
+    ArchiwareServerIP: []
   }
 
   componentDidMount() {
     this.getServerInfo()
     // this.getServerInfoHeaders()
+    this.getIP()
   }
 
   getServerInfoHeaders() {
@@ -27,11 +29,11 @@ class SrvInfo extends Component {
     // axios({headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }})
     axios
       // .get(`${API_URL}/general/srvinfo`, { headers: { Authentication: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k="} }  )
-      // .get(`${API_URL}/general/srvinfo`, auth)
+      .get(`${API_URL}/general/srvinfo`, auth)
       // .get(`http://localhost:8080/getAPIResponseMunki_v1`, auth)
-      .get(`http://localhost:8090/general/srvinfo`, auth)
+      // .get(`http://localhost:8090/general/srvinfo`, auth)
       .then((response) => {
-        // console.log("SrvInfo", response)
+        // console.log("SrvInfo", response.data)
         // console.log("Uptime", response.data.uptime)
         const uptime = new Date(response.data.uptime * 1000).toISOString().substr(11, 8)
         // console.log("Uptime", uptime)
@@ -45,15 +47,29 @@ class SrvInfo extends Component {
         console.log('error:', error);
       })
   }
+
+  getIP() {
+    axios
+      .get(`http://localhost:8090/ip`, auth)
+      .then((response) => {
+        // console.log(response.data)
+        this.setState({
+          ArchiwareServerIP: response.data
+        })
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      })
+  }
   
   render() {
 
-    const { SrvInfo, Uptime } = this.state
+    const { SrvInfo, Uptime, ArchiwareServerIP } = this.state
       
     return (
       <section className="srvinfo">
         {/* <h3 className="srvinfo__heading">P5 Server Info</h3> */}
-        <h3 className="srvinfo__heading">Server Info --> Munki.local</h3>
+        <h3 className="srvinfo__heading">Server Info</h3>
         <div className="srvinfo__table-wrapper">
           <Table compact>
             <Table.Header>
@@ -63,7 +79,7 @@ class SrvInfo extends Component {
             </Table.Header>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Address</Table.HeaderCell>
+                <Table.HeaderCell>IP Address</Table.HeaderCell>
                 <Table.HeaderCell>Home</Table.HeaderCell>
                 <Table.HeaderCell>Host ID</Table.HeaderCell>
                 <Table.HeaderCell>Hostname</Table.HeaderCell>
@@ -75,7 +91,7 @@ class SrvInfo extends Component {
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                <Table.Cell>{SrvInfo.address}</Table.Cell>
+                <Table.Cell>{ArchiwareServerIP.ArchiwareServerIP}</Table.Cell>
                 <Table.Cell>{SrvInfo.home}</Table.Cell>
                 <Table.Cell>{SrvInfo.hostid}</Table.Cell>
                 <Table.Cell>{SrvInfo.hostname}</Table.Cell>

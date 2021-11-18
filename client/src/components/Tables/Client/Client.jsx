@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { API_URL, auth } from '../../../utils/Auth';
-import { Table, Button } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 // const options = {
 //   headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }
@@ -10,8 +10,8 @@ import { Table, Button } from 'semantic-ui-react';
 class Client extends Component {
 
   state = {
-    SrvInfo: [],
-    Uptime: []
+    // SrvInfo: [],
+    // Uptime: []
   }
 
   componentDidMount() {
@@ -42,7 +42,7 @@ class Client extends Component {
   
   render() {
 
-    const { SrvInfo, Uptime } = this.state
+    // const { SrvInfo, Uptime } = this.state
       
     return (
       <section className="client">
