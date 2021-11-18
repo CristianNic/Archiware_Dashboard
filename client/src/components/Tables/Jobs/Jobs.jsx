@@ -3,6 +3,12 @@ import React, { Component } from "react";
 import { Table } from 'semantic-ui-react'; // Rating
 import { API_URL, auth } from '../../../utils/Auth';
 
+// 1. make data table structure
+// 2. map over data displaying table
+// 3. figure out calls you will need
+// 4. make calls
+// 5. form data object
+
 class Jobs extends Component {
 
   state = {    

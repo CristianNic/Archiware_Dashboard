@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { API_URL, auth } from '../../../utils/Auth';
 import { Table } from 'semantic-ui-react';
-
-// const options = {
-//   headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }
-// }
   
 class SrvInfo extends Component {
 
@@ -28,7 +24,6 @@ class SrvInfo extends Component {
   getServerInfo() {
     // axios({headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }})
     axios
-      // .get(`${API_URL}/general/srvinfo`, { headers: { Authentication: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k="} }  )
       .get(`${API_URL}/general/srvinfo`, auth)
       // .get(`http://localhost:8080/getAPIResponseMunki_v1`, auth)
       // .get(`http://localhost:8090/general/srvinfo`, auth)

@@ -42,7 +42,7 @@ class LicenseResources extends Component {
           const infoFormatted = []
           info.forEach((license) => {
             if (license === -1) { 
-              infoFormatted.push(`unlimited`) // \u221e // -1
+              infoFormatted.push(`unlimited`) // \u221e // -1 // {"\u221e"}
             } else if (license === 0) {
               infoFormatted.push(`${license}`)  
             } else if (license !== isNaN) {

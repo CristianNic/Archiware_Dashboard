@@ -139,8 +139,8 @@ class Dashboard extends Component {
             <Divider/> */}
           {/* <Client className="dashboard__client"/>
             <Divider/> */}
-          {/* <Devices className="dashboard__devices"/>
-            <Divider/> */}
+          <Devices className="dashboard__devices"/>
+            <Divider/>
           {/* <LicenseResources className="dashboard__licenseResources" />
             <Divider/> */}
           <Jukebox className="dashboard__jukebox" />
