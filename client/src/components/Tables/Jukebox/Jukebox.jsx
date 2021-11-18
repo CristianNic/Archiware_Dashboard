@@ -5,6 +5,33 @@ import { API_URL, auth } from '../../../utils/Auth';
 
 // const USERNAME = process.env.REACT_APP_USERNAME;
 // const PASSWORD = process.env.REACT_APP_PASSWORD;
+// {"\u2002"} empty space 
+const JukeboxNameSlotcount = [
+  { name: "awjb0", slotcount: "24" },
+  { name: "", slotcount: "" },
+  { name: "", slotcount: "" },
+  { name: "", slotcount: "" },
+  { name: "", slotcount: "" },
+]
+console.log('JukeboxNameSlotcount:', JukeboxNameSlotcount)
+
+const JukeboxVolumes = [
+  { slot: "1", volume: "10841" },
+  { slot: "2", volume: "10432" },
+  { slot: "3", volume: "10123" },
+  { slot: "4", volume: "10478" },
+  { slot: "5", volume: "10623" },
+]
+console.log('JukeboxVolumes:', JukeboxVolumes)
+
+const JukeboxCombined = [
+  { name: "awjb0",  slotcount: "24",     slot: "1", volume: "10841" },
+  { name: "\u2002", slotcount: "\u2002", slot: "2", volume: "10432" },
+  { name: "\u2002", slotcount: "\u2002", slot: "3", volume: "10123" },
+  { name: "\u2002", slotcount: "\u2002", slot: "4", volume: "10478" },
+  { name: "\u2002", slotcount: "\u2002", slot: "5", volume: "10623" },
+]
+console.log('JukeboxCombined:', JukeboxCombined)
 
 class Jukebox extends Component {
 
@@ -160,7 +187,7 @@ class Jukebox extends Component {
               <Table.HeaderCell>Slotcount</Table.HeaderCell>
               <Table.HeaderCell>Slot</Table.HeaderCell>
               {/* GET JukeboxVolumes */}
-                <Table.HeaderCell>Volumes</Table.HeaderCell>
+                <Table.HeaderCell>Volume</Table.HeaderCell>
             </Table.Header>
             <Table.Body>
               <Table.Row>
@@ -191,25 +218,43 @@ class Jukebox extends Component {
 
           <Table compact>
             <Table.Header>
-              {/* GET JukeboxNames */}
-                <Table.HeaderCell>Name</Table.HeaderCell>  
-              {/* GET JukeboxInfo */}
+              <Table.HeaderCell>Name</Table.HeaderCell>  
               <Table.HeaderCell>Slotcount</Table.HeaderCell>
-              {/* GET JukeboxVolumes */}
-                <Table.HeaderCell>Volumes</Table.HeaderCell>
+              <Table.HeaderCell>Slot</Table.HeaderCell>
+              <Table.HeaderCell>Volume</Table.HeaderCell>
             </Table.Header>
             <Table.Body>
+              {JukeboxCombined.map(jukebox =>
               <Table.Row>
+                  <Table.Cell>{jukebox.name}</Table.Cell>
+                  <Table.Cell>{jukebox.slotcount}</Table.Cell>
+                  <Table.Cell>{jukebox.slot}</Table.Cell>
+                  <Table.Cell>{jukebox.volume}</Table.Cell>
+              </Table.Row>
+              )}
+
+
+              {/* <Table.Row>
                 <Table.Cell>Jelly</Table.Cell>
                 <Table.Cell>100</Table.Cell>
-                <Table.Cell>
-                  Jukebox Volume Name<br/>
-                  Jukebox Volume Name<br/>
-                  Jukebox Volume Name<br/>
-                </Table.Cell>
+                <Table.Cell>1</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
               </Table.Row>
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>2</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>3</Table.Cell>
+                <Table.Cell>Jukebox Volume Name</Table.Cell>
+              </Table.Row> */}
             </Table.Body>
           </Table>
+
         </div>
       </section>
     )
