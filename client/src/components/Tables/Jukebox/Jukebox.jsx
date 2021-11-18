@@ -19,10 +19,11 @@ class Jukebox extends Component {
 
   componentDidMount() {
     this.getJukeboxNames()
-    // this.getJukeboxInfo()
-    this.getJukeboxVolumes()
+    this.getJukeboxInfo()
+    // this.getJukeboxVolumes()
     this.getJukeboxVolumesPerSlot()
   }
+  
 
   getLicenseResourceNamesInfo() {
     axios
@@ -103,7 +104,7 @@ class Jukebox extends Component {
         // console.log("response:", response)
         // console.log("response:", response.data.jukeboxes)
         const jukeboxes = response.data.jukeboxes.map(device => device.ID)
-        // console.log('jukeboxes:', jukeboxes)
+        console.log('jukeboxes():', jukeboxes)
         this.setState({
           JukeboxNames: jukeboxes,
         })
@@ -117,7 +118,7 @@ class Jukebox extends Component {
     axios
       .get(`${API_URL}/general/jukeboxes/awjb0`, auth)
       .then((response) => {
-        // console.log("response:", response)
+        console.log("getJukeboxInfo():", response.data)
         // const jukeboxes = response.data.jukeboxes.map(device => device.ID)
         // console.log('jukeboxes:', jukeboxes)
         this.setState({
@@ -135,7 +136,7 @@ class Jukebox extends Component {
       .then((response) => {
         // console.log("Jukebox volumes response:", response)
         const jukeboxVolumeIDs = response.data.volumes.map(device => device.ID)
-        // console.log('jukeboxes:', jukeboxVolumeIDs)
+        console.log("getJukeboxVolumes()", jukeboxVolumeIDs)
         this.setState({
           JukeboxVolumes: jukeboxVolumeIDs,
         })
@@ -147,27 +148,67 @@ class Jukebox extends Component {
 
   getJukeboxVolumesPerSlot() {
     axios
-      .get(`${API_URL}/general/jukeboxes/awjb0/volumes`, {
-        // auth: {
-        //   username: USERNAME,
-        //   password: PASSWORD,
-        // },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Headers": "origin",
-          "slotID": "10", // cannot be 0 
-        },
-        crossDomain: true,
+      // GET JukeboxNames
+      .get(`${API_URL}/general/jukeboxes`, auth)
+      .then(async (response) => {
+        const jukeboxes = response.data.jukeboxes.map(device => device.ID)
+        console.log("jukeboxNames =>", jukeboxes)
+        // GET JukeboxInfo ( slotcount )
+        const slotCountPromises = []
+        jukeboxes.forEach((jukebox) => {
+          slotCountPromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}`))
+        })
+        console.log("Promises =>", slotCountPromises)
+        return Promise.all(slotCountPromises).then(async (response) => {
+          console.log("response", response)
+          const slotcounts = response.map(jukebox => jukebox.data) // <= Try server with multiple Jukeboxes
+          console.log('slotcounts:', slotcounts)
+
+          console.log("Jukeboxes", jukeboxes)
+          // GET JukeboxVolume ( all volumes for each jukebox )
+          const allVolumesPromises = []
+          jukeboxes.forEach((jukebox) => {
+            allVolumesPromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}/volumes`))
+          })
+          console.log("allVolumesPromises =>", allVolumesPromises)
+          return Promise.all(allVolumesPromises).then((response) => {
+            console.log("allVolumesPromises - Response", response)
+            const allVolumes = response.map(volumes => volumes.data.volumes)
+            console.log('allVolumes:', allVolumes)
+
+            // GET JukeboxVolume - get volumes for each slotID 
+            const volumesPerSlotIDPromises = []
+            const slotcount = slotcounts[0].slotcount // 24 
+            // get(`${API_URL}/general/jukeboxes/${jukebox}/volumes`, {
+            //   headers: {
+            //     "slotID": "10", // cannot be 0 
+            //   },
+            // })
+
+            console.log('slotcount:', slotcount) 
+            jukeboxes.forEach((jukebox) => {
+              volumesPerSlotIDPromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}/1`))
+            })
+            return Promise.all(volumesPerSlotIDPromises).then((response) => {
+              console.log('volumesPerSlotIDPromises:', response)
+            })
+          })
+        })
+      })
+
+    // first call - no header, get a list of all volumes
+    // next calls each have a different clot in the header
+    axios
+      .get(`${API_URL}/general/jukeboxes/awjb0/volumes/24`, { // slotID: "10" // In case a volume is present but unknown, a 0 is returned for that volume.
       })
       .then((response) => {
-        console.log("getJukeboxVolumesPerSlot response:", response)
-        // const jukeboxVolumeIDs = response.data.volumes.map(device => device.ID)
-        // console.log('jukeboxes:', jukeboxVolumeIDs)
-        // this.setState({
-        //   JukeboxVolumes: jukeboxVolumeIDs,
-        // })
+        const jukeboxVolumeIDs = response.data.volumes.map(device => device.ID)
+        console.log("getJukeboxVolumesPerSlot() - VolumeIDs", jukeboxVolumeIDs)
+        this.setState({
+          JukeboxVolumes: jukeboxVolumeIDs,
+        })
       })
+      // next calls each have a different clot in the header
       .catch((error) => {
         console.log('error:', error);
       })
@@ -176,9 +217,9 @@ class Jukebox extends Component {
   render() {
 
     const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
-    console.log("JukeboxNames", JukeboxNames)
-    console.log('JukeboxInfo:', JukeboxInfo)
-    console.log('JukeboxVolumes:', JukeboxVolumes)
+    // console.log("JukeboxNames", JukeboxNames)
+    // console.log('JukeboxInfo:', JukeboxInfo)
+    // console.log('JukeboxVolumes:', JukeboxVolumes)
     // console.log('JukeboxNamesInfoVolumes:', JukeboxNamesInfoVolumes)
 
     return (
