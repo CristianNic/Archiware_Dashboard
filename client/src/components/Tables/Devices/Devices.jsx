@@ -123,7 +123,7 @@ class Devices extends Component {
                   <Table.Cell>Null</Table.Cell>
                   <Table.Cell>Null</Table.Cell>
                 </Table.Row>)
-              :
+                :
                 (DeviceNamesInfo.map(device =>
                   <Table.Row>
                     <Table.Cell>{device.device}</Table.Cell>                 
