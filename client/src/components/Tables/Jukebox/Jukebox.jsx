@@ -49,7 +49,7 @@ class Jukebox extends Component {
     // this.getJukeboxNames()
     // this.getJukeboxInfo()
     // this.getJukeboxVolumes()
-    this.getJukeboxVolumesPerSlot()
+    // this.getJukeboxVolumesPerSlot()
     this.getJukeboxes()
   }
 
@@ -173,7 +173,7 @@ class Jukebox extends Component {
     const getJukeboxNames = await axios.get(`${API_URL}/general/jukeboxes`)
     // console.log('jukeboxNames:', getJukeboxNames)
     const jukeboxNames = getJukeboxNames.data.jukeboxes.map(device => device.ID) // <--- [ awjb0 ]
-    console.log('jukeboxNames:', jukeboxNames)
+    // console.log('jukeboxNames:', jukeboxNames) // * Demo <-- 
 
     // ===> forEach form GET JukeboxInfo request ===> [ /general/jukebox/awjb0, /general/jukebox/awjb1 ]
     const getJukeboxInfoPromises = []
@@ -189,7 +189,7 @@ class Jukebox extends Component {
     getJukeboxInfo.forEach((jukebox) => {
       slotcount.push(jukebox.data.slotcount)
     })
-    console.log("slotcount", slotcount)
+    // console.log("slotcount", slotcount) // * Demo <-- 
   
     // ===> GET JukeboxVolumes (by SlotID) request ===> [ /general/jukebox/awjb0/1, 
     //                                                    /general/jukebox/awjb0/2,  x 24 
@@ -203,47 +203,67 @@ class Jukebox extends Component {
     // then for each jukebox set the number of sots string 
     // 
 
-    // const jukeboxUrls = []
-    // jukeboxNames.forEach((jukebox) => {
-    //   jukeboxUrls.push(`${API_URL}/general/jukeboxes/${jukebox}`)
-    // })
-    // console.log("jukeboxUrls", jukeboxUrls)
-
-    // const slotcounts = [ 24, 21] 
-    const slotcounts = [ 24 ] 
-    // const slotcounts = [ [1,2,3,5,6,7,8], [50,60,70]] 
-    const jukeboxUrls = ['http://localhost:8090/general/jukeboxes/awjb0','http://localhost:8090/general/jukeboxes/awjb1']
-    console.log("jukeboxUrls", jukeboxUrls)
-    console.log("slotcount", slotcounts)
-
-    const jukeboxVolumesUrls = []
-    jukeboxUrls.forEach((url) => {
-      jukeboxVolumesUrls.push(`${url}/1`)
+    const jukeboxUrls = []
+    jukeboxNames.forEach((jukebox) => {
+      jukeboxUrls.push(`${API_URL}/general/jukeboxes/${jukebox}`)
     })
-    console.log("jukeboxVolumesUrls", jukeboxVolumesUrls)
+    // console.log("jukeboxUrls", jukeboxUrls) // * Demo <-- 
 
-    const array = []
-    for (let i = 0; i < jukeboxUrls.length; i++) {
-      // const obj = {
-      //   device: devices[i],
-      //   cleaning: info[i]
-      // }
-      for (let i = 0; i < slotcounts; i++) {
-        const urls = (`${jukeboxUrls[i]}/${slotcounts[i]}`)
-        array.push(urls)
-      }
-
-      // const url = (`${jukeboxUrls[i]}/${slotcounts[i]}`)
-        
-      // array.push(url)
-    }
-    console.log('array:', array)
-
-    const slots = new Array(slotcounts)
-    for (let i = 0; i < slotcounts; i++) {
+    const slots = new Array(slotcount)
+    for (let i = 0; i < slotcount; i++) {
       slots[i] = i + 1
+      slots[i].toString()
     }
-    console.log('slots:', slots)
+    // console.log('slots:', slots) // * Demo <-- 
+
+    const slotStrings = []
+    slots.forEach((slot) => {
+      slotStrings.push(slot.toString())
+    })
+    // console.log('slotsStrings:', slotStrings) // * Demo <-- 
+
+    const jukeboxSlotVolumeUrls = []
+    const jukeboxSlotVolumePromises = []
+    for (let i = 0; i < slotStrings.length; i++) {    
+      const url = (`${jukeboxUrls}/volumes/${slotStrings[i]}`)
+      jukeboxSlotVolumeUrls.push(url)
+      // jukeboxSlotVolumePromises.push(axios.get(url))
+    }
+    // console.table(jukeboxSlotVolumeUrls) // * Demo <-- 
+
+    // const Answer = await Promise.all(jukeboxSlotVolumePromises)
+    // console.log('Answer:', Answer)
+
+    // ===> GET JukeboxVolume by slot request ===> [ /general/jukebox/awjb0/1, /general/jukebox/awjb02/2, ...]
+    // const getVolumesBySlots = await Promise.all(jukeboxSlotVolumePromises)
+    // console.log('getVolumesBySlots:', getVolumesBySlots)
+
+    // ==> slot 4 & 24 return 0 
+    // In case a volume is present but unknown, a 0 is returned for that volume
+    // ==> slot 5 just brakes the whole call... 
+
+    const Test = await axios.get('http://localhost:8090/general/jukeboxes/awjb0/volumes/::5')  // * Demo <-- 
+    console.log('Test:', Test)                                                                 // * Demo <-- 
+
+    // Catch error for each and print "null" to get resolved promises on the page
+    // https://stackoverflow.com/questions/52669596/promise-all-with-axios
+
+
+    
+
+
+    // const volumeIDs = [] // <--- [ 24 ]
+    // getVolumesBySlots.forEach((volume) => {
+    //   volumeIDs.push(jukebox.data.slotcount)
+    // })
+    // console.log("volumeIDs", volumeIDs) // * Demo <-- 
+
+
+    // const getVolumesBySlots = []
+    // jukeboxSlotVolumeUrls.forEach((slot) => {
+    //   getVolumesBySlots.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}`))
+    // })
+    // console.log('getJukeboxInfoPromises:', getJukeboxInfoPromises)
 
   }
 

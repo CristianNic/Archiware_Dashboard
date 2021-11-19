@@ -36,11 +36,11 @@ users[username] = password;
 // 		unauthorizedResponse: getUnauthorizedResponse,
 // 	})
 // );
-function getUnauthorizedResponse(req) {
-	return req.auth
-		? "Credentials " + req.auth.user + ":" + req.auth.password + " rejected"
-		: "No credentials provided";
-}
+// function getUnauthorizedResponse(req) {
+// 	return req.auth
+// 		? "Credentials " + req.auth.user + ":" + req.auth.password + " rejected"
+// 		: "No credentials provided";
+// }
 
 // ---------- Axios Proxy------------------------------------
 
@@ -174,17 +174,18 @@ app.get("/general/jukeboxes/:jukeboxID", (req, res) => {
 // In case a volume is present but unknown, a 0 is returned for that volume. 
 // To update the list of the volumes in the jukebox, call POST rest / v1 / jukeboxes / { jukeboxID } https://blog.archiware.com/redoc/p5_rest_api/awp5api.html#operation/JukeboxVolumes
 app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
+	console.log("===> url ===>", req.url);
 	console.log("===> params ===>", req.params.jukeboxID);
 	console.log("===> params ===>", req.params.slotID);
-	// console.log("===> header ===>", req.headers.slotid);
+	// console.log("===> header ===>", req.headers.slotID);
 	// console.log("===> header ===>", req.headers);
 	// console.log("axios ->", `${API_URL}/general/jukeboxes/${req.params.jukeboxID}`);
-	// if req.headers.slotid is undefined (not present) - then all volumes returned
-	// if req.headers.slotid is given then returns only the volume in this slot.
+	// if req.headers.slotID is undefined (not present) - then all volumes returned
+	// if req.headers.slotID is given then returns only the volume in this slot.
 	axios(`${API_URL}/general/jukeboxes/${req.params.jukeboxID}/volumes`, {
 		headers: {
 			Authorization: "Basic " + encodedToken,
-			// slotID: req.headers.slotid,
+			// slotID: req.headers.slotID,
 			slotID: req.params.slotID,
 		},
 	})
@@ -194,10 +195,45 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
 			console.log("RESPONSE ===> ", response.data);
 			res.json(response.data);
 		})
-		.catch(function (error) {
-			console.log(error);
+    .catch(function (error) {
+		// https://stackoverflow.com/questions/49967779/axios-handling-errors
+			if (error.response) {
+				// Request made and server responded
+				// console.log("Oops it failed!");
+				// res.json("Oops it failed!");
+        console.log("Log ==>", error.response.statusText);
+				// res.json(error.response.statusText);
+
+        console.log("Data =>", error.response.data);
+        
+        res.json({
+					status: error.response.statusText,
+					data: error.response.data,
+				});
+
+
+
+				console.log(error.response.status);
+				console.log(error.response.headers);
+				console.log(error.response.statusText);
+				// console.log(error);
+			} else if (error.request) {
+				// The request was made but no response was received
+				console.log(error.request);
+			} else {
+				// Something happened in setting up the request that triggered an Error
+				console.log("Error", error.message);
+			}
+
+			// console.log(error);
 		});
 });
+
+
+// Add space for clearer output reading
+const chorus = "        ";
+console.log(`${chorus.repeat(300)}`);
+
 
 // axios
 // 	.get("http://100.104.128.109:8000/rest/v1/general/srvinfo")
