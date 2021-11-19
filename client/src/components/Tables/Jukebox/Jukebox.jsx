@@ -227,12 +227,12 @@ class Jukebox extends Component {
     for (let i = 0; i < slotStrings.length; i++) {    
       const url = (`${jukeboxUrls}/volumes/${slotStrings[i]}`)
       jukeboxSlotVolumeUrls.push(url)
-      // jukeboxSlotVolumePromises.push(axios.get(url))
+      jukeboxSlotVolumePromises.push(axios.get(url))
     }
     // console.table(jukeboxSlotVolumeUrls) // * Demo <-- 
 
-    // const Answer = await Promise.all(jukeboxSlotVolumePromises)
-    // console.log('Answer:', Answer)
+    const Answer = await Promise.all(jukeboxSlotVolumePromises)
+    console.log('Answer:', Answer)
 
     // ===> GET JukeboxVolume by slot request ===> [ /general/jukebox/awjb0/1, /general/jukebox/awjb02/2, ...]
     // const getVolumesBySlots = await Promise.all(jukeboxSlotVolumePromises)
@@ -242,8 +242,8 @@ class Jukebox extends Component {
     // In case a volume is present but unknown, a 0 is returned for that volume
     // ==> slot 5 just brakes the whole call... 
 
-    const Test = await axios.get('http://localhost:8090/general/jukeboxes/awjb0/volumes/::5')  // * Demo <-- 
-    console.log('Test:', Test)                                                                 // * Demo <-- 
+    // const Test = await axios.get('http://localhost:8090/general/jukeboxes/awjb0/volumes/5')  // * Demo <-- 
+    // console.log('Test:', Test)                                                                 // * Demo <-- 
 
     // Catch error for each and print "null" to get resolved promises on the page
     // https://stackoverflow.com/questions/52669596/promise-all-with-axios

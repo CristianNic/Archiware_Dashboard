@@ -174,9 +174,10 @@ app.get("/general/jukeboxes/:jukeboxID", (req, res) => {
 // In case a volume is present but unknown, a 0 is returned for that volume. 
 // To update the list of the volumes in the jukebox, call POST rest / v1 / jukeboxes / { jukeboxID } https://blog.archiware.com/redoc/p5_rest_api/awp5api.html#operation/JukeboxVolumes
 app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
-	console.log("===> url ===>", req.url);
-	console.log("===> params ===>", req.params.jukeboxID);
-	console.log("===> params ===>", req.params.slotID);
+	// console.log("===> url ===>", req.url);
+	// console.log("===> params ===>", req.params.jukeboxID);
+  // console.log("===> params ===>", req.params.slotID);
+  
 	// console.log("===> header ===>", req.headers.slotID);
 	// console.log("===> header ===>", req.headers);
 	// console.log("axios ->", `${API_URL}/general/jukeboxes/${req.params.jukeboxID}`);
@@ -192,7 +193,7 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
 		.then(function (response) {
 			// console.log("Hello Wrapper function");
 			// console.log(JSON.stringify(response.data));
-			console.log("RESPONSE ===> ", response.data);
+			console.log(`RESPONSE ===> ${req.params.slotID}`, response.data);
 			res.json(response.data);
 		})
     .catch(function (error) {
@@ -207,6 +208,7 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
         console.log("Data =>", error.response.data);
         
         res.json({
+          volumes: [{ID: "Not Found"}], // could also say "0", present but unknown
 					status: error.response.statusText,
 					data: error.response.data,
 				});
@@ -231,8 +233,8 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
 
 
 // Add space for clearer output reading
-const chorus = "        ";
-console.log(`${chorus.repeat(300)}`);
+const chorus = "         ";  
+console.log(`${chorus.repeat(700)}`);
 
 
 // axios
