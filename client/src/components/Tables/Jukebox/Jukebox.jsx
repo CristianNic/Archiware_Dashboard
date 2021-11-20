@@ -34,6 +34,12 @@ const JukeboxCombined = [
 // console.log('JukeboxCombined:', JukeboxCombined)
 const JukeboxCombinedEmpty = []
 
+// 1. make data table structure
+// 2. map over data displaying table
+// 3. figure out calls you will need
+// 4. make calls
+// 5. form data object
+
 class Jukebox extends Component {
 
   state = {    
@@ -43,6 +49,7 @@ class Jukebox extends Component {
     JukeboxNamesInfoVolumes: [],
     JukeboxNamesInfoVolumesMock: [
       { id: "awjb0", slotcount: "24", volumeIDs: ["10441", "10421", "10478"] }],
+    JukeboxSlotsVolumeIDs: []
   }
 
   componentDidMount() {
@@ -209,68 +216,89 @@ class Jukebox extends Component {
     })
     // console.log("jukeboxUrls", jukeboxUrls) // * Demo <-- 
 
+    const slotStrings = []
+    // Convert Slot Number [ 24 ] into a series and strings [ 1, 2, 3, ... 24 ]
     const slots = new Array(slotcount)
     for (let i = 0; i < slotcount; i++) {
       slots[i] = i + 1
-      slots[i].toString()
+      const string = slots[i].toString()
+      slotStrings.push(string)
     }
-    // console.log('slots:', slots) // * Demo <-- 
+    // console.log("slots:", slots) // [ num ] // * Demo <-- 
+    // console.log("slotStrings:", slotStrings) // [ str ]
 
-    const slotStrings = []
-    slots.forEach((slot) => {
-      slotStrings.push(slot.toString())
-    })
-    // console.log('slotsStrings:', slotStrings) // * Demo <-- 
-
-    const jukeboxSlotVolumeUrls = []
+    // const jukeboxSlotVolumeUrls = []
     const jukeboxSlotVolumePromises = []
     for (let i = 0; i < slotStrings.length; i++) {    
       const url = (`${jukeboxUrls}/volumes/${slotStrings[i]}`)
-      jukeboxSlotVolumeUrls.push(url)
+      // jukeboxSlotVolumeUrls.push(url)
       jukeboxSlotVolumePromises.push(axios.get(url))
     }
-    // console.table(jukeboxSlotVolumeUrls) // * Demo <-- 
-
-    const Answer = await Promise.all(jukeboxSlotVolumePromises)
-    console.log('Answer:', Answer)
+    // console.table(jukeboxSlotVolumeUrls) // [ url strings ] // * Demo <-- 
 
     // ===> GET JukeboxVolume by slot request ===> [ /general/jukebox/awjb0/1, /general/jukebox/awjb02/2, ...]
-    // const getVolumesBySlots = await Promise.all(jukeboxSlotVolumePromises)
-    // console.log('getVolumesBySlots:', getVolumesBySlots)
+    const jukeboxSlotVolumeIDs = await Promise.all(jukeboxSlotVolumePromises)
+    // console.log("jukeboxSlotVolumeIDs:", jukeboxSlotVolumeIDs)
 
+    //---------------- Server Error ----- GET JukeboxVolume by slot-----------------------
     // ==> slot 4 & 24 return 0 
     // In case a volume is present but unknown, a 0 is returned for that volume
-    // ==> slot 5 just brakes the whole call... 
+    // ==> slot 5 just brakes the whole call... in P5 server it's labeled 
+    // as "Drive 1::5" and the server doesn't know what to do with it - returns "Server Error"
 
     // const Test = await axios.get('http://localhost:8090/general/jukeboxes/awjb0/volumes/5')  // * Demo <-- 
     // console.log('Test:', Test)                                                                 // * Demo <-- 
 
     // Catch error for each and print "null" to get resolved promises on the page
     // https://stackoverflow.com/questions/52669596/promise-all-with-axios
-
-
+    //------------------------------------------------------------------------------
     
+    const slotVolumeIDs = []
+    jukeboxSlotVolumeIDs.forEach((slot) => {
+      slotVolumeIDs.push(slot.data.volumes[0].ID)
+    })
+    // console.log('slotVolumeIDs:', slotVolumeIDs) // [ '10436', '0', '10438', ... ] // <--- Demo
 
+    // Data object variables: 
+    // console.log('jukeboxNames:', jukeboxNames)   // [ 'awjb0'] 
+    // console.log("slotcount", slotcount)          // [ 24 ]
+    // console.log("slotStrings:", slotStrings)     // [ '1', '2', 3' ]
+    // console.log("space variable", "\u2002")      // [ ] keeps table cells even, as if full
+    // console.log('slotVolumeIDs:', slotVolumeIDs) // [ '10436', '0', '10438', ... ]
 
-    // const volumeIDs = [] // <--- [ 24 ]
-    // getVolumesBySlots.forEach((volume) => {
-    //   volumeIDs.push(jukebox.data.slotcount)
-    // })
-    // console.log("volumeIDs", volumeIDs) // * Demo <-- 
+    // Fill out two arrays so all will have length 24
+    const slotcountString = [slotcount.toString()]
+    
+    for (let i = 0; i < slotcount - 1; i++) {
+      jukeboxNames.push("\u2002")
+      slotcountString.push("\u2002")
+    }
+    // console.log("jukeboxNames", jukeboxNames)       // [ 'awjb0', ' ', ' ', ...]
+    // console.log("slotcountString", slotcountString) // [ '24', ' ', ' ', ... ]
 
+    // form data array 
+    const jukeboxSlotsVolumeIDs = []
+    for (let i = 0; i < slotcount; i++) {
+      const obj = {
+        name: jukeboxNames[i],
+        slotcount: slotcountString[i], 
+        slot: slotStrings[i],
+        volume: slotVolumeIDs[i]
+      }
+      jukeboxSlotsVolumeIDs.push(obj)
+    }
+    console.log("jukeboxSlotsVolumeIDs:", jukeboxSlotsVolumeIDs) // * Demo <--
 
-    // const getVolumesBySlots = []
-    // jukeboxSlotVolumeUrls.forEach((slot) => {
-    //   getVolumesBySlots.push(axios.get(`${API_URL}/general/jukeboxes/${jukebox}`))
-    // })
-    // console.log('getJukeboxInfoPromises:', getJukeboxInfoPromises)
-
+    this.setState({
+      JukeboxSlotsVolumeIDs: jukeboxSlotsVolumeIDs
+    })
   }
 
   render() {
 
     // const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
-    // console.log("JukeboxNames", JukeboxNames)
+    const { JukeboxSlotsVolumeIDs } = this.state
+    console.log("JukeboxSlotsVolumeIDs", JukeboxSlotsVolumeIDs)
     // console.log('JukeboxInfo:', JukeboxInfo)
     // console.log('JukeboxVolumes:', JukeboxVolumes)
     // console.log('JukeboxNamesInfoVolumes:', JukeboxNamesInfoVolumes)
@@ -326,20 +354,22 @@ class Jukebox extends Component {
               <Table.HeaderCell>Volume</Table.HeaderCell>
             </Table.Header>
             <Table.Body>
-              {Object.keys(JukeboxCombined).length === 0 ?
+              {Object.keys(JukeboxSlotsVolumeIDs).length === 0 ?
                 (<Table.Row>
-                  <Table.Cell>Null</Table.Cell>
-                  <Table.Cell>Null</Table.Cell>
-                  <Table.Cell>Null</Table.Cell>
-                  <Table.Cell>Null</Table.Cell>
+                  <Table.Cell>connection down</Table.Cell>
+                  <Table.Cell>connection down</Table.Cell>
+                  <Table.Cell>connection down</Table.Cell>
+                  <Table.Cell>connection down</Table.Cell>
                 </Table.Row>)
                 :
-                (JukeboxCombined.map(jukebox =>
+                (JukeboxSlotsVolumeIDs.map(jukebox =>
                   <Table.Row>
                       <Table.Cell>{jukebox.name}</Table.Cell>
                       <Table.Cell>{jukebox.slotcount}</Table.Cell>
                       <Table.Cell>{jukebox.slot}</Table.Cell>
-                      <Table.Cell>{jukebox.volume}</Table.Cell>
+                    {jukebox.volume === '0' ?
+                      (<Table.Cell>0, present & unknown</Table.Cell>)
+                    : (<Table.Cell>{jukebox.volume}</Table.Cell>)}
                   </Table.Row>
                 ))
               }

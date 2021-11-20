@@ -208,12 +208,12 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
         console.log("Data =>", error.response.data);
         
         res.json({
-          volumes: [{ID: "Not Found"}], // could also say "0", present but unknown
+          volumes: [{ ID: "Not Found" }],
+          // could also say "0", present but unknown
+          // "Try again in 1 hour" // "updating" 
 					status: error.response.statusText,
 					data: error.response.data,
 				});
-
-
 
 				console.log(error.response.status);
 				console.log(error.response.headers);
@@ -234,7 +234,7 @@ app.get("/general/jukeboxes/:jukeboxID/volumes/:slotID", (req, res) => {
 
 // Add space for clearer output reading
 const chorus = "         ";  
-console.log(`${chorus.repeat(700)}`);
+console.log(`${chorus.repeat(10)}`);
 
 
 // axios
