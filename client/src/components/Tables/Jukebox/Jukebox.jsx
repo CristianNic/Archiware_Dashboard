@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Table, TableCell, TableRow } from 'semantic-ui-react';
+import { Table, TableCell, TableRow, Button, Icon } from 'semantic-ui-react';
 import { API_URL, auth } from '../../../utils/Auth';
 
 // const USERNAME = process.env.REACT_APP_USERNAME;
@@ -178,9 +178,9 @@ class Jukebox extends Component {
   async getJukeboxes() {
     // ===> GET JukeboxNames  ===> [ awjb0, awjb1 ]
     const getJukeboxNames = await axios.get(`${API_URL}/general/jukeboxes`)
-    // console.log('jukeboxNames:', getJukeboxNames)
+    console.log('jukeboxNames:', getJukeboxNames)
     const jukeboxNames = getJukeboxNames.data.jukeboxes.map(device => device.ID) // <--- [ awjb0 ]
-    // console.log('jukeboxNames:', jukeboxNames) // * Demo <-- 
+    console.log('jukeboxNames:', jukeboxNames) // * Demo <-- 
 
     // ===> forEach form GET JukeboxInfo request ===> [ /general/jukebox/awjb0, /general/jukebox/awjb1 ]
     const getJukeboxInfoPromises = []
@@ -251,6 +251,9 @@ class Jukebox extends Component {
 
     // Catch error for each and print "null" to get resolved promises on the page
     // https://stackoverflow.com/questions/52669596/promise-all-with-axios
+    //
+    //Resolved by catching error response and modifying output in proxy server         
+    //  res.json({ data: { volumes: [{ ID: "Not Found" }] }, })
     //------------------------------------------------------------------------------
     
     const slotVolumeIDs = []
@@ -287,7 +290,7 @@ class Jukebox extends Component {
       }
       jukeboxSlotsVolumeIDs.push(obj)
     }
-    console.log("jukeboxSlotsVolumeIDs:", jukeboxSlotsVolumeIDs) // * Demo <--
+    // console.log("jukeboxSlotsVolumeIDs:", jukeboxSlotsVolumeIDs) // * Demo <--
 
     this.setState({
       JukeboxSlotsVolumeIDs: jukeboxSlotsVolumeIDs
@@ -295,71 +298,39 @@ class Jukebox extends Component {
   }
 
   render() {
-
     // const { JukeboxNames, JukeboxInfo, JukeboxVolumes, JukeboxNamesInfoVolumes } = this.state
     const { JukeboxSlotsVolumeIDs } = this.state
-    console.log("JukeboxSlotsVolumeIDs", JukeboxSlotsVolumeIDs)
+    // console.log("JukeboxSlotsVolumeIDs", JukeboxSlotsVolumeIDs)
     // console.log('JukeboxInfo:', JukeboxInfo)
     // console.log('JukeboxVolumes:', JukeboxVolumes)
     // console.log('JukeboxNamesInfoVolumes:', JukeboxNamesInfoVolumes)
 
     return (
       <section className="jukebox">
-        {/* <h3 className="jukebox__heading">P5 Jukebox Info</h3> */}
         <h3 className="jukebox__heading">Jukebox Info</h3>
         <div className="jukebox__table-wrapper">
-          <Table compact>
+          <Table compact celled striped>
             <Table.Header>
-              {/* GET JukeboxNames */}
-                <Table.HeaderCell>Name</Table.HeaderCell>  
-              {/* GET JukeboxInfo */}
-              <Table.HeaderCell>Slotcount</Table.HeaderCell>
-              <Table.HeaderCell>Slot</Table.HeaderCell>
-              {/* GET JukeboxVolumes */}
-                <Table.HeaderCell>Volume</Table.HeaderCell>
+              <Table.Row>
+                <Table.HeaderCell colSpan='1'>Jukebox</Table.HeaderCell>
+                <Table.HeaderCell colSpan='3'>awjb0</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell>Jelly</Table.Cell>
-                <Table.Cell>100</Table.Cell>
-                <Table.Cell>1</Table.Cell>
-                <Table.Cell>Jukebox Volume Name</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell></Table.Cell>
-                <Table.Cell></Table.Cell>
-                <Table.Cell>2</Table.Cell>
-                <Table.Cell>Jukebox Volume Name</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell></Table.Cell>
-                <Table.Cell></Table.Cell>
-                <Table.Cell>3</Table.Cell>
-                <Table.Cell>Jukebox Volume Name</Table.Cell>
-              </Table.Row>
-              {/* <TableRow>
-                <Table.Cell>
-                  Total
-                </Table.Cell>
-              </TableRow> */}
-            </Table.Body>
-          </Table>
-
-          
-          <Table compact>
             <Table.Header>
-              <Table.HeaderCell>Name</Table.HeaderCell>  
-              <Table.HeaderCell>Slotcount</Table.HeaderCell>
-              <Table.HeaderCell>Slot</Table.HeaderCell>
-              <Table.HeaderCell>Volume</Table.HeaderCell>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>  
+                <Table.HeaderCell>Slotcount</Table.HeaderCell>
+                <Table.HeaderCell>Slot</Table.HeaderCell>
+                <Table.HeaderCell>Volume</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
             <Table.Body>
               {Object.keys(JukeboxSlotsVolumeIDs).length === 0 ?
                 (<Table.Row>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
                 </Table.Row>)
                 :
                 (JukeboxSlotsVolumeIDs.map(jukebox =>
@@ -368,15 +339,13 @@ class Jukebox extends Component {
                       <Table.Cell>{jukebox.slotcount}</Table.Cell>
                       <Table.Cell>{jukebox.slot}</Table.Cell>
                     {jukebox.volume === '0' ?
-                      (<Table.Cell>0, present & unknown</Table.Cell>)
+                      (<Table.Cell>present & unknown</Table.Cell>)
                     : (<Table.Cell>{jukebox.volume}</Table.Cell>)}
                   </Table.Row>
                 ))
               }
             </Table.Body>
           </Table>
-
-
         </div>
       </section>
     )
