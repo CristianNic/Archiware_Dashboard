@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const logger = require("morgan");
 const cors = require("cors");
+const selectServer = require("../server/middleware/selectServer")
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8090;
@@ -21,87 +22,57 @@ app.use(
 	})
 );
 
-// ----------- Client Server Access -------------------------
-const username = process.env.USERNAME_Client;
-const password = process.env.PASSWORD_Client;
+//---------------- P5 Servers Basic Auth ---------------------//
+// const username_BSMini = process.env.USERNAME_BackupServerMini;
+// const password_BSMini = process.env.PASSWORD_BackupServerMini;
 
-const users = {};
-users[username] = password;
-
-// app.use(
-// 	basicAuth({
-// 		users: users, // { username: password }
-// 		challenge: true,
-// 		unauthorizedResponse: getUnauthorizedResponse,
-// 	})
-// );
-// function getUnauthorizedResponse(req) {
-// 	return req.auth
-// 		? "Credentials " + req.auth.user + ":" + req.auth.password + " rejected"
-// 		: "No credentials provided";
-// }
-
-// ---------- Axios Proxy------------------------------------
-
-const username_BSMini = process.env.USERNAME_BackupServerMini;
-const password_BSMini = process.env.PASSWORD_BackupServerMini;
-
-const token = `${username_BSMini}:${password_BSMini}`;
-const encodedToken = Buffer.from(token).toString("base64");
-
-const auth = {
-	// method: "get",
-	// url: "http://100.104.128.109:8000/rest/v1/general/srvinfo",
-	headers: {
-		// Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=", // munki.local
-		Authorization: "Basic " + encodedToken,
-	},
-};
-// console.log("auth", auth);
+// const token = `${username_BSMini}:${password_BSMini}`;
+// const encodedToken = Buffer.from(token).toString("base64");
 
 // const auth = {
-// 	// auth: {
-// 		username: "admin",
-// 		password: "sougth-repair-SMASH",
-// 	// },
+// 	headers: {
+// 		Authorization: "Basic " + encodedToken,
+// 	},
 // };
+//---------------- P5 Servers Basic Auth ---------------------//
 
-// --- works !!
-// axios(config)
-// 	.then(function (response) {
-// 		console.log(JSON.stringify(response.data));
-// 	})
-// 	.catch(function (error) {
-// 		console.log(error);
-//   });
+// app.use(
+// 	function hello(req, res, next) {
+// 		console.log("================> ROUTE CALLED ============>");
+//   }
+// 	// const ExpressMiddleware = ( req, res, next ) => {
+// );
+
+app.use(selectServer)
 
 const IP = process.env.IP_BackupServerMini;
 const API_URL = process.env.API_BackupServerMini;
 
 app.get("/ip", (req, res) => {
+  console.log("ip", req.headers.host)
   res.json({
     ArchiwareServerIP: IP,
   });
 });
 
-//---------------- Server Info ----------------------//
-// GET Srvinfo
-app.get("/general/srvinfo", (req, res) => {
-	axios(`${API_URL}/general/srvinfo`, auth)
-		.then(function (response) {
-			// console.log("Hello Wrapper function");
-			// console.log(JSON.stringify(response.data));
-			res.json(response.data);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+app.get("/servers", (req, res) => {
+  res.json([
+		{ server: IP },
+		{ server: API_URL },
+		{ server: "John" },
+	]);
 });
 
 //---------------- Client Names----------------------//
 // GET ClientNames
 app.get("/general/clients", (req, res) => {
-	axios(`${API_URL}/general/clients`, auth)
+	// console.log("Client req ---> ", req.headers.server)
+	console.log("Client res.locals.server ---> ", res.locals.server);
+  const api = res.locals.server; // we've changed api
+	const auth = res.locals.auth; // now lets change auth too !
+
+	axios(`${api}/general/clients`, auth)
+	// axios(`${res.locals.server}/general/clients`, res.locals.auth)
 		.then(function (response) {
 			res.json(response.data);
 		})
@@ -112,7 +83,12 @@ app.get("/general/clients", (req, res) => {
 
 // GET ClientInfo
 app.get("/general/clients/:clientID", (req, res) => {
-	axios(`${API_URL}/general/clients/${req.params.clientID}`, auth)
+  
+  console.log("Client res.locals.server---> ", res.locals.server);
+  const api = res.locals.server;
+  const auth = res.locals.auth;
+	
+  axios(`${api}/general/clients/${req.params.clientID}`, auth)
 		.then(function (response) {
 			res.json(response.data);
 		})
@@ -144,6 +120,81 @@ app.get("/general/clients/:clientID", (req, res) => {
 		});
 });
 
+// const srvinfo = require("./routes/general/srvinfo");
+// const license = require("./routes/license/license");
+// const clients = require("./routes/general/clients");
+// const devices = require("./routes/general/devices");
+// const jukeboxes = require("./routes/general/jukeboxes");
+// const volumes = require("./routes/general/volumes");
+// const jobs = require("./routes/general/jobs");
+
+// app.use("/general/srvinfo", srvinfo);
+// app.use("/license/resources", license)
+// app.use("/general/clients", clients);
+// app.use("/general/devices", devices);
+// app.use("/general/jukeboxes", jukeboxes);
+// app.use("/general/volumes", volumes);
+// app.use("/general/jobs", jobs);
+
+
+//---------------- Server Info ----------------------//
+// GET Srvinfo
+app.get("/general/srvinfo", (req, res) => {
+	axios(`${API_URL}/general/srvinfo`, auth)
+		.then(function (response) {
+			// console.log("Hello Wrapper function");
+			// console.log(JSON.stringify(response.data));
+			res.json(response.data);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+});
+
+// //---------------- Client Names----------------------//
+// // GET ClientNames
+// app.get("/general/clients", (req, res) => {
+// 	axios(`${API_URL}/general/clients`, auth)
+// 		.then(function (response) {
+// 			res.json(response.data);
+// 		})
+// 		.catch(function (error) {
+// 			console.log(error);
+// 		});
+// });
+// // GET ClientInfo
+// app.get("/general/clients/:clientID", (req, res) => {
+// 	axios(`${API_URL}/general/clients/${req.params.clientID}`, auth)
+// 		.then(function (response) {
+// 			res.json(response.data);
+// 		})
+// 		.catch(function (error) {
+// 			if (error.response) {
+// 				console.log("Log ==>", error.response.statusText);
+// 				// res.json(error.response.statusText);
+// 				console.log("Data =>", error.response.data);
+// 				console.log(error.response.headers);
+// 				res.json({
+// 					resource: "Not Found",
+// 					// could also say "0", present but unknown
+// 					// "Try again in 1 hour" // "updating"
+// 					status: error.response.statusText,
+// 					responseData: error.response.data,
+// 				});
+
+// 				console.log(error.response.status);
+// 				console.log(error.response.headers);
+// 				console.log(error.response.statusText);
+// 				// console.log(error);
+// 			} else if (error.request) {
+// 				// The request was made but no response was received
+// 				console.log(error.request);
+// 			} else {
+// 				// Something happened in setting up the request that triggered an Error
+// 				console.log("Error", error.message);
+// 			}
+// 		});
+// });
 
 //---------------- License Resources----------------------//
 // GET LicenseResourceNames
@@ -252,6 +303,8 @@ app.get("/general/jukeboxes/:jukeboxID", (req, res) => {
 			console.log(error);
 		});
 });
+
+//---------------- Volumes ----------------------//
 // GET JukeboxVolumes
 app.get("/general/jukeboxes/:jukeboxID/volumes", (req, res) => {
   console.log("===> params ===>", req.params.jukeboxID)
@@ -377,6 +430,8 @@ app.get("/general/volumes/:volumeID", (req, res) => {
 			// console.log(error);
 		});
 });
+
+
 //---------------- Jobs ----------------------//
 // GET JobNames
 // app.get("/general/jobs", (req, res) => {
@@ -572,3 +627,31 @@ app.listen(PORT, console.log(`Server listening at: http://localhost:${PORT}`));
 // Set auth as default 
 // Global in Client/Website: https://github.com/axios/axios#global-axios-defaults
 // https://stackoverflow.com/questions/45578844/how-to-set-header-and-options-in-axios
+
+
+
+
+// -------- Remove ----------- // 
+// ----------- Client Server Access -------------------------
+// const username = process.env.USERNAME_Client;
+// const password = process.env.PASSWORD_Client;
+
+// const users = {};
+// users[username] = password;
+
+// app.use(
+// 	basicAuth({
+// 		users: users, // { username: password }
+// 		challenge: true,
+// 		unauthorizedResponse: getUnauthorizedResponse,
+// 	})
+// );
+// function getUnauthorizedResponse(req) {
+// 	return req.auth
+// 		? "Credentials " + req.auth.user + ":" + req.auth.password + " rejected"
+// 		: "No credentials provided";
+// }
+
+
+
+
