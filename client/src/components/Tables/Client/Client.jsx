@@ -2,26 +2,38 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { API_URL } from '../../../utils/Auth';
 import { Table } from 'semantic-ui-react';
-  
+import server from '../../../utils/server';
+
 class Client extends Component {
 
   state = {
-    clientTable: []
+    clientTable: [],
+    serverAPI: []
   }
 
   componentDidMount() {
     this.getClientNamesInfo()
   }
+  
+  componentDidUpdate(prevProps) {
+    console.log("prevProps ", prevProps)
+    console.log("this.props.activeServer ", this.props.activeServer)
+
+    if (prevProps.activeServer !== this.props.activeServer)
+    {
+      this.getClientNamesInfo()
+    }
+  }
 
   async getClientNamesInfo() {
-
-    const getClientNames = await axios.get(`${API_URL}/general/clients`)
+    
+    const getClientNames = await axios.get(`${API_URL}/general/clients`, server(this.props.activeServer))
 
     const clientNames = getClientNames.data.clients.map(client => client.ID) // ['Synology', 'localhost', ...]
 
     const getClientInfoPromises = []
     clientNames.forEach(clientID => {
-      getClientInfoPromises.push(axios.get(`${API_URL}/general/clients/${clientID}`))
+      getClientInfoPromises.push(axios.get(`${API_URL}/general/clients/${clientID}`, server(this.props.activeServer)))
     })
     const clientInfo = await Promise.all(getClientInfoPromises)
 
@@ -39,7 +51,6 @@ class Client extends Component {
         isThinFormatted.push("Server")
       }
     })
-
     // ===> Form DataTable Array 
     const clientTable = []
     for (let i = 0; i < clientInfo.length; i++) {
@@ -53,16 +64,16 @@ class Client extends Component {
       }
       clientTable.push(obj)
     }
-    // console.log('ClientTable:', clientTable)
-
     this.setState({
-      clientTable: clientTable
+      clientTable: clientTable,
     })
   }
 
   render() {
 
     const { clientTable } = this.state
+
+    console.log("3. Client: active Server", this.props.activeServer)
     
     return (
       <section className="client">
