@@ -66,7 +66,7 @@ class SrvInfo extends Component {
         {/* <h3 className="srvinfo__heading">P5 Server Info</h3> */}
         <h3 className="srvinfo__heading">Server Info</h3>
         <div className="srvinfo__table-wrapper">
-          <Table compact>
+          <Table compact celled>
             <Table.Header>
               {/* <Table.Row>
                 <Table.HeaderCell colSpan='8'>/general/srvinfo</Table.HeaderCell>
@@ -85,16 +85,29 @@ class SrvInfo extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              <Table.Row>
-                <Table.Cell>{ArchiwareServerIP.ArchiwareServerIP}</Table.Cell>
-                <Table.Cell>{SrvInfo.home}</Table.Cell>
-                <Table.Cell>{SrvInfo.hostid}</Table.Cell>
-                <Table.Cell>{SrvInfo.hostname}</Table.Cell>
-                <Table.Cell>{SrvInfo.lexxvers}</Table.Cell>
-                <Table.Cell>{SrvInfo.platform}</Table.Cell>
-                <Table.Cell>{SrvInfo.port}</Table.Cell>
-                <Table.Cell>{Uptime}</Table.Cell>
-              </Table.Row>
+              {Object.keys(SrvInfo).length === 0 ?
+                (<Table.Row>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                </Table.Row>)
+                :
+                (<Table.Row>
+                  <Table.Cell>{ArchiwareServerIP.ArchiwareServerIP}</Table.Cell>
+                  <Table.Cell>{SrvInfo.home}</Table.Cell>
+                  <Table.Cell>{SrvInfo.hostid}</Table.Cell>
+                  <Table.Cell>{SrvInfo.hostname}</Table.Cell>
+                  <Table.Cell>{SrvInfo.lexxvers}</Table.Cell>
+                  <Table.Cell>{SrvInfo.platform}</Table.Cell>
+                  <Table.Cell>{SrvInfo.port}</Table.Cell>
+                  <Table.Cell>{Uptime}</Table.Cell>
+                </Table.Row>)
+              }
             </Table.Body>
           </Table>
         </div>
