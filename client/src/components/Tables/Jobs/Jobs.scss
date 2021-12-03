@@ -1,22 +1,69 @@
 .jobs {
 	&__table-wrapper {
-		width: 700px;
+    margin-bottom: 16px;
+    width: 715px;  
+
+    /* ----- Scrollable ------ */
+    // height: 300px;
+    // overflow-y: scroll;  /* or auto */
 	}
-	&__heading {
-		margin-bottom: 3px;
+	&__dropdown {
+		// margin-bottom: 3px;
 		font-weight: bold;
-		// color: rgb(2, 105, 132);
-		color: rgb(2, 88, 110); // darker
-	}
-	&__hostname {
-		font-weight: bold;
+    // height: 5px;
+    // min-width: 100px;
+    background-color: white;
+    margin-right: 20px;
+    height: 30px;
+    &-table-wrapper {
+      display: flex;
+    }
 	}
 }
+
+/* Didn't work ... remove css */
+// .ui.table.jobs-table {
+//   width: 680px !important;  // or try configuring a cell 
+// }
+
+ui.tb.big-cell {
+  overflow-wrap: break-word !important;
+  width: 100px !important;
+}
+
 
 h1 {
 	font-size: 20px;
 }
 
+.ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
+    color: rgba(0,0,0,1) !important;
+}
+
+.ui.selection.dropdown {
+  // padding: 20px
+  // padding-top: 5px;
+  // padding-bottom: 9px;
+  // min-height: 10px;
+  // min-width: 60px;
+  min-width: 0px;
+  width: 78px
+}
 // .table-wrapper {
 //     width: 200px;
 //   }
+
+.ui.dropdown.menu {
+  // min-width: 60px;
+}
+// .ui.dropdown>.text {
+//         display: block !important;
+//         overflow: hidden;
+//     }
+
+.days {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
