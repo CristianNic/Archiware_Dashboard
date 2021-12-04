@@ -1,123 +1,115 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Table } from 'semantic-ui-react';
-import { API_URL, auth } from '../../../utils/Auth';
+import { API_URL } from '../../../utils/Auth';
+import server from '../../../utils/server';
 
 class LicenseResources extends Component {
 
   state = {    
-    // LicenseResourceNamesInfoMockUp: [{ resourceID: "ArchivePlan" }, { licenses: -1 },
-    //                                  { resourceID: "BackupPlan" }, { licenses: 0 },
-    //                                  { resourceID: "SyncPlan" }, { licenses: 5 }],
-    ResourceLicenses: [],
-    // LicenseResourceNames: [],
-    LicenseResourceInfo: [],
+    LicenseResourcesTable: []
   }
 
   componentDidMount() {
-    this.getLicenseResourceNamesInfo()
-    // this.getLicenseResourceNames()
-    // this.getLicenseResourceInfo()
+    this.getLicenseResources()
   }
 
-  // LicenseResourceInfo - Returns the number of free licenses available:
-  // "-1" for unlimited free licenses, "0" if there are no free licenses 
-  // or a positive number of free licenses
-
-  getLicenseResourceNamesInfo() {
-    axios
-      .get(`${API_URL}/license/resources`, auth)
-      .then(async (response) => {
-        // console.log("getLicenseResourceName", response)
-        const resources = response.data.resources.map(resource => resource.ID)
-        // console.log("resources", resources)
-        const promises = []
-        resources.forEach((resource) => {
-          promises.push(axios.get(`${API_URL}/license/resources/${resource}`, auth))
-        })
-        return Promise.all(promises).then((response) => {
-          // console.log("Promises.all response", response)
-          const info = response.map(resourceInfo => resourceInfo.data.licenses)
-          // console.log('info:', info)
-          const infoFormatted = []
-          info.forEach((license) => {
-            if (license === -1) { 
-              infoFormatted.push(`unlimited`) // \u221e // -1 // {"\u221e"}
-            } else if (license === 0) {
-              infoFormatted.push(`${license}`)  
-            } else if (license !== isNaN) {
-              infoFormatted.push(`${license}`)
-            } else {
-              infoFormatted.push("fail")
-            }
-          })
-          // console.log("infoFormatted", infoFormatted)
-          const resourceLicenses = []  // resources infoFormatted
-          for (let i = 0; i < resources.length; i++) {
-            const obj = {
-              resourceID: resources[i],
-              licenses: infoFormatted[i]
-            }
-            resourceLicenses.push(obj)
-          }
-          this.setState({
-            ResourceLicenses: resourceLicenses
-          })
-        })
-      })
-  }
-  
-  getLicenseResourceNames() {
-    axios
-      .get(`${API_URL}/license/resources`, auth)
-      .then((response) => {
-        // console.log(response.data.resources) // names listed 
-        this.setState({
-        LicenseResourceNames: response.data.resources
-        })
-      })
-      .catch((error) => {
-        console.log('error:', error.response.data);
-      })
+  componentDidUpdate(prevProps) {
+    if (prevProps.activeServer !== this.props.activeServer ||
+        prevProps.refresh !== this.props.refresh)
+    {
+      this.getLicenseResources()
+    }
   }
 
-  getLicenseResourceInfo() {
-    axios
-      .get(`${API_URL}/license/resources/ArchivePlan`, auth)
-      .then((response) => {
-        console.log(response.data.licenses) // random number 
-        this.setState({
-        LicenseResourceInfo: response.data.resources
-        })
-      })
-      .catch((error) => {
-        console.log('error:', error.response.data);
-      }) 
+  async getLicenseResources() {
+
+    const getLicenseResourceNames = await axios.get(`${API_URL}/license/resources`, server(this.props.activeServer))
+    
+    const resourceIDs = getLicenseResourceNames.data.resources.map(resource => resource.ID)
+
+    // GET LicenseResourceInfo (for each) - Returns the number of free licenses available: "-1" for unlimited 
+    // free licenses, "0" if there are no free licenses or a positive number of free licenses
+    const getLicenseResourceInfoPromises = []
+    resourceIDs.forEach(resourceID => {
+      getLicenseResourceInfoPromises.push(axios.get(`${API_URL}/license/resources/${resourceID}`, server(this.props.activeServer)))
+    })
+    const licenseInfo = await Promise.all(getLicenseResourceInfoPromises)
+
+    const licenses = licenseInfo.map(license => license.data.resource)
+
+    const infoFormatted = []
+    licenses.forEach((license) => {
+      if (license === -1) { 
+        infoFormatted.push(`unlimited`)   // or empty spaces \u221e // -1 // {"\u221e"}
+      } else if (license === 0) {
+        infoFormatted.push(`${license}`)  
+      } else if (license !== isNaN) {
+        infoFormatted.push(`${license}`)
+      } else {
+        infoFormatted.push("Not Found")
+      }
+    })
+    const licenseResourcesTable = []
+    for (let i = 0; i < resourceIDs.length; i++) {
+      const obj = {
+        resourceID: resourceIDs[i],
+        licenses: infoFormatted[i],
+      }
+      licenseResourcesTable.push(obj)
+    }
+    this.setState({
+      LicenseResourcesTable: licenseResourcesTable
+    })
   }
 
   render() {
 
-    const { ResourceLicenses } = this.state
-    // console.log('ResourceLicenses:', ResourceLicenses)
+    const { LicenseResourcesTable } = this.state
 
     return (
       <section className="licenseResources">
-        {/* <h3 className="licenseResource__heading">P5 License Resource Info</h3> */}
-        <h3 className="licenseResources__heading">License Resource Info</h3>
+        <h3 className="table-heading">License Resource Info</h3>
         <div className="licenseResources__table-wrapper">
-          <Table compact>
+          <Table compact celled>
             <Table.Header>
-              {ResourceLicenses.map(resource => 
-                <Table.HeaderCell>{resource.resourceID}</Table.HeaderCell>
-              )}
+              <Table.Row>
+                <Table.HeaderCell>ArchivePlan</Table.HeaderCell>  
+                <Table.HeaderCell>BackupPlan</Table.HeaderCell>
+                <Table.HeaderCell>SyncPlan</Table.HeaderCell>
+                <Table.HeaderCell>Backup2Go</Table.HeaderCell>
+                <Table.HeaderCell>Client</Table.HeaderCell>
+                <Table.HeaderCell>ThinClient</Table.HeaderCell>
+                <Table.HeaderCell>VirtClient</Table.HeaderCell>
+                <Table.HeaderCell>Device</Table.HeaderCell>
+                <Table.HeaderCell>Jukebox</Table.HeaderCell>
+                <Table.HeaderCell>DesktopLinks</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
-            <Table.Body>  
-              {ResourceLicenses.map(resource => 
-                <Table.Cell textAlign='center'>{resource.licenses}</Table.Cell>
-              )}
+            <Table.Body>
+              {Object.keys(LicenseResourcesTable).length === 0 ?
+                (<Table.Row>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                </Table.Row>)
+                :
+                (<Table.Row>
+                  {LicenseResourcesTable.map(license =>
+                    <Table.Cell>{license.licenses}</Table.Cell>
+                  )}
+                </Table.Row>
+                )
+              }
             </Table.Body>
           </Table>
-          {/* <h4 className="licenseResource__heading">*Need official response format from server to extract info</h4> */}
         </div>
       </section>
     )
