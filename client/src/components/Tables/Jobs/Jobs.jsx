@@ -1,123 +1,152 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Tab, Table } from 'semantic-ui-react'; // Rating
-import { API_URL, auth } from '../../../utils/Auth';
-
-// 1. make data table structure
-// 2. map over data displaying table
-// 3. figure out calls you will need
-// 4. make calls
-// 5. form data object
-
-const JobTable = [
-  { jobID: "10017", status: "running", result: "failure", report: "words words words" },
-  { jobID: "10035", status: "completed", result: "success", report: "words words words" },
-  { jobID: "10086", status: "completed", result: "warning", report: "words words words" },
-]
-// what does a job with a warning look like? 
+import { Table } from 'semantic-ui-react';
+import { API_URL } from '../../../utils/Auth';
+import server from '../../../utils/server';
 
 class Jobs extends Component {
 
   state = {    
-    Jobs: JobTable,
+    jobInfoTableSorted: [],
   }
 
   componentDidMount() {
     this.getJobs()
   }
 
-  async getJobs() {
-    // GET JobName
-    // GET JobInfo
-    // GET Job Report 
-    
-    console.log("HEllo Jobs!")
-
-    // Sort Data => failed, warning, success
-    
+  componentDidUpdate(prevProps) {
+    if (prevProps.activeServer !== this.props.activeServer ||
+        prevProps.refresh !== this.props.refresh)
+    {
+      this.getJobs()
+    }
   }
+  
+  async getJobs() {
+    // communicating with Archiware, currently filters are still being worked on:
+    // "completed, failed, pending, running or warning" return "Internal Server Error:"
+    const getJobNames = await axios.get(`${API_URL}/general/jobs/`, server(this.props.activeServer))
 
+    const jobIDs = getJobNames.data.jobs.map(job => job.ID) 
+
+    // // ===> GET JobInfo - keep for later
+    // const getJobInfoPromises = []
+    // jobIDs.forEach((id) => {
+    //   getJobInfoPromises.push(axios.get(`${API_URL}/general/jobs/${id}`))
+    // })
+    // // console.log("getJobInfoPromises", getJobInfoPromises)
+    // const getJobInfo = await Promise.all(getJobInfoPromises)
+    // console.log('getJobInfo:', getJobInfo)
+
+    const getJobProtocolPromises = []
+    jobIDs.forEach((id) => {
+      getJobProtocolPromises.push(axios.get(`${API_URL}/general/jobs/${id}/protocol`, server(this.props.activeServer)))
+    })
+    const getJobProtocol = await Promise.all(getJobProtocolPromises)
+
+    const result = []  
+    const status = [] 
+    getJobProtocol.forEach((job) => {
+      result.push(job.data.completion)
+      status.push(job.data.status)
+    })
+
+    const getJobReportPromises = []
+    jobIDs.forEach((id) => {
+      getJobReportPromises.push(axios.get(`${API_URL}/general/jobs/${id}/report`, server(this.props.activeServer)))
+    })
+    const getJobReport = await Promise.all(getJobReportPromises)
+
+    const reports = getJobReport.map(report => report.data)
+
+    const formattedReports = []
+    reports.forEach((report) => {
+      if (report === "<empty>") {
+        formattedReports.push("empty") 
+      } else {
+        formattedReports.push(report)
+      }
+    }) 
+    const jobInfoTable = []
+    for (let i = 0; i < jobIDs.length; i++) {
+      const obj = {
+        jobID: jobIDs[i],
+        result: result[i],
+        status: status[i],
+        report: formattedReports[i]
+      }
+      jobInfoTable.push(obj)
+    }
+
+    const failure = []
+    const warning = []
+    const success = []
+    const rest = []
+
+    jobInfoTable.map((job) => {
+      if (job.result === "failure") {
+        failure.push(job)
+      } else if (job.result === "warning") {
+        warning.push(job)
+      } else if (job.result === "success") {
+        success.push(job)
+      } else {
+        rest.push(job)
+      }
+    })
+    const jobInfoTableSorted = [...failure, ...warning, ...success, ...rest]
+
+    this.setState({
+      jobInfoTableSorted: jobInfoTableSorted
+    })
+  }  
 
   render() {
     
-    const { Jobs } = this.state
+    const { jobInfoTableSorted } = this.state
 
     return (
       <section className="jobs">
-        <h3 className="jobs__heading">Jobs Info</h3>
-        <div className="jobs__table-wrapper">
-
-          {/* Table with only one Cell colored  */}
-          <Table compact>
+        <h3 className="table-heading">Jobs Info</h3>
+        <div className="jobs__table-wrapper border">
+          <Table compact celled striped className="jobs-table">
             <Table.Header>
-              <Table.HeaderCell>Job ID</Table.HeaderCell>  
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Result</Table.HeaderCell>
-              <Table.HeaderCell>Report</Table.HeaderCell>
+              <Table.Row>
+                <Table.HeaderCell>Job ID</Table.HeaderCell>  
+                <Table.HeaderCell>Result</Table.HeaderCell>
+                <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Report</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
             <Table.Body>
-              {Object.keys(Jobs).length === 0 ?
+              {Object.keys(jobInfoTableSorted).length === 0 ?
                 (<Table.Row>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
+                  <Table.Cell>loading...</Table.Cell>
                 </Table.Row>)
                 :
-                (Jobs.map(job =>
-                  <Table.Row>
-                      <Table.Cell>{job.jobID}</Table.Cell>
-                      <Table.Cell>{job.status}</Table.Cell>
-                      {/* <Table.Cell>{job.result}</Table.Cell> */}
-                      {job.result === 'success' ?
-                        (<Table.Cell positive>{job.result}</Table.Cell>)
-                      :job.result === 'warning' ?
-                        (<Table.Cell warning>{job.result}</Table.Cell>)
-                      : (<Table.Cell negative>{job.result}</Table.Cell>)}
-                      <Table.Cell>{job.report}</Table.Cell>
-                  </Table.Row>
-                ))
-              }
-            </Table.Body>
-          </Table>
-
-          
-          <Table compact>
-            <Table.Header>
-              <Table.HeaderCell>Job ID</Table.HeaderCell>  
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Result</Table.HeaderCell>
-              <Table.HeaderCell>Report</Table.HeaderCell>
-            </Table.Header>
-            <Table.Body>
-              {Object.keys(Jobs).length === 0 ?
-                (<Table.Row>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                </Table.Row>)
-                :
-                (Jobs.map(job =>
+                (jobInfoTableSorted.map(job =>
                   job.result === 'success' ?
                     ( <Table.Row positive>
                         <Table.Cell>{job.jobID}</Table.Cell>
-                        <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
-                        <Table.Cell>{job.report}</Table.Cell>
+                        <Table.Cell>{job.status}</Table.Cell>
+                        <Table.Cell className>{job.report}</Table.Cell>
                       </Table.Row>)
                   : job.result === 'warning' ?
                     ( <Table.Row warning>
                         <Table.Cell>{job.jobID}</Table.Cell>
-                        <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
+                        <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.report}</Table.Cell>
                       </Table.Row>)
-                        :
+                  :
                     ( <Table.Row negative>
                         <Table.Cell>{job.jobID}</Table.Cell>
-                        <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
+                        <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.report}</Table.Cell>
                       </Table.Row>
                     )
@@ -125,86 +154,6 @@ class Jobs extends Component {
               }
             </Table.Body>
           </Table>
-
-          
-          {/* <Table compact>
-            <Table.Header>
-              <Table.HeaderCell>Job ID</Table.HeaderCell>  
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Result</Table.HeaderCell>
-              <Table.HeaderCell>Report</Table.HeaderCell>
-            </Table.Header>
-            <Table.Body>
-              {Object.keys(Jobs).length === 0 ?
-                (<Table.Row>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                </Table.Row>)
-                :
-                (Jobs.result === 'success' ?
-                  (Jobs.map(job => 
-                    <Table.Row positive>
-                      <Table.Cell>{job.jobID}</Table.Cell>
-                      <Table.Cell>{job.status}</Table.Cell>
-                      <Table.Cell>{job.result}</Table.Cell>
-                      <Table.Cell>{job.report}</Table.Cell>
-                    </Table.Row>
-                  ))
-                  :
-                  (Jobs.map(job => 
-                    <Table.Row>
-                      <Table.Cell>{job.jobID}</Table.Cell>
-                      <Table.Cell>{job.status}</Table.Cell>
-                      <Table.Cell>{job.result}</Table.Cell>
-                      <Table.Cell>{job.report}</Table.Cell>
-                    </Table.Row>
-                  ))
-                )
-              }
-            </Table.Body>
-          </Table> */}
-
-          
-          {/* <Table compact>
-            <Table.Header>
-              <Table.HeaderCell>Job ID</Table.HeaderCell>  
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Result</Table.HeaderCell>
-              <Table.HeaderCell>Report</Table.HeaderCell>
-            </Table.Header>
-            <Table.Body>
-              {Object.keys(Jobs).length === 0 ?
-                (<Table.Row>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                  <Table.Cell>connection down</Table.Cell>
-                </Table.Row>)
-                :
-                (Jobs.map(job =>
-                  { job.result === "success" ?
-                    (<Table.Row>
-                      <Table.Cell>{job.jobID}</Table.Cell>
-                      <Table.Cell>{job.status}</Table.Cell>
-                      <Table.Cell>{job.result}</Table.Cell>
-                      <Table.Cell>{job.report}</Table.Cell>
-                      </Table.Row>)
-                    :
-                    (<Table.Row>
-                      <Table.Cell>{job.jobID}</Table.Cell>
-                      <Table.Cell>{job.status}</Table.Cell>
-                      <Table.Cell>{job.result}</Table.Cell>
-                      <Table.Cell>{job.report}</Table.Cell>
-                      </Table.Row>)
-                  }
-                ))
-              }
-            </Table.Body>
-          </Table> */}
-
-          
         </div>
       </section>
     )
@@ -213,16 +162,6 @@ class Jobs extends Component {
 
 export default Jobs
 
-    // <Table.Footer>
-    //   <Table.Row>
-    //     <Table.HeaderCell>3 People</Table.HeaderCell>
-    //     <Table.HeaderCell>2 Approved</Table.HeaderCell>
-    //     <Table.HeaderCell />
-    //   </Table.Row>
-    // </Table.Footer >
-      
-  // Column where you can mark what you're watching - Binocular icon =) each has a back end number 
-  // then - can be sortable - place to top < Rating size = "huge" />
 
 
 
