@@ -1,55 +1,52 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import { API_URL, auth } from '../../../utils/Auth';
 import { Table } from 'semantic-ui-react';
+import { API_URL } from '../../../utils/Auth';
+import server from '../../../utils/server';
   
 class SrvInfo extends Component {
 
   state = {
-    SrvInfo: [],
+    SrvInfoTable: [],
     Uptime: [],
-    ArchiwareServerIP: []
+    ServerIP: []
   }
 
   componentDidMount() {
     this.getServerInfo()
-    // this.getServerInfoHeaders()
-    this.getIP()
+    this.getServerIP()
   }
 
-  getServerInfoHeaders() {
-    // Manually set Basic Auth Header  
+  componentDidUpdate(prevProps) {
+    if (prevProps.activeServer !== this.props.activeServer || 
+      prevProps.refresh !== this.props.refresh)
+    {
+      this.getServerInfo()
+      this.getServerIP()
+    }
   }
 
   getServerInfo() {
-    // axios({headers: { Authorization: "Basic Y3Jpc3RpYW46bXVua2lyZXBvcnQgbXVua2k=" }})
     axios
-      .get(`${API_URL}/general/srvinfo`, auth)
-      // .get(`http://localhost:8080/getAPIResponseMunki_v1`, auth)
-      // .get(`http://localhost:8090/general/srvinfo`, auth)
+      .get(`${API_URL}/general/srvinfo`, server(this.props.activeServer))
       .then((response) => {
-        // console.log("SrvInfo", response.data)
-        // console.log("Uptime", response.data.uptime)
         const uptime = new Date(response.data.uptime * 1000).toISOString().substr(11, 8)
-        // console.log("Uptime", uptime)
         this.setState({
-          SrvInfo: response.data,
+          SrvInfoTable: response.data,
           Uptime: uptime
         })
       })
       .catch((error) => {
-        // console.log('error:', error.response.data);
         console.log('error:', error);
       })
   }
 
-  getIP() {
+  getServerIP() {
     axios
-      .get(`http://localhost:8090/ip`, auth)
+      .get(`${API_URL}/general/srvinfo/ip`, server(this.props.activeServer))
       .then((response) => {
-        // console.log(response.data)
         this.setState({
-          ArchiwareServerIP: response.data
+          ServerIP: response.data.serverIP
         })
       })
       .catch((error) => {
@@ -59,19 +56,13 @@ class SrvInfo extends Component {
   
   render() {
 
-    const { SrvInfo, Uptime, ArchiwareServerIP } = this.state
-      
+    const { SrvInfoTable, Uptime, ServerIP } = this.state
+
     return (
       <section className="srvinfo">
-        {/* <h3 className="srvinfo__heading">P5 Server Info</h3> */}
-        <h3 className="srvinfo__heading">Server Info</h3>
-        <div className="srvinfo__table-wrapper">
+        <h3 className="table-heading">Server Info</h3>
+        <div className="srvinfo__table-wrapper border">
           <Table compact celled>
-            <Table.Header>
-              {/* <Table.Row>
-                <Table.HeaderCell colSpan='8'>/general/srvinfo</Table.HeaderCell>
-              </Table.Row> */}
-            </Table.Header>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>IP Address</Table.HeaderCell>
@@ -85,7 +76,7 @@ class SrvInfo extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {Object.keys(SrvInfo).length === 0 ?
+              {Object.keys(SrvInfoTable).length === 0 ?
                 (<Table.Row>
                   <Table.Cell>loading...</Table.Cell>
                   <Table.Cell>loading...</Table.Cell>
@@ -98,13 +89,13 @@ class SrvInfo extends Component {
                 </Table.Row>)
                 :
                 (<Table.Row>
-                  <Table.Cell>{ArchiwareServerIP.ArchiwareServerIP}</Table.Cell>
-                  <Table.Cell>{SrvInfo.home}</Table.Cell>
-                  <Table.Cell>{SrvInfo.hostid}</Table.Cell>
-                  <Table.Cell>{SrvInfo.hostname}</Table.Cell>
-                  <Table.Cell>{SrvInfo.lexxvers}</Table.Cell>
-                  <Table.Cell>{SrvInfo.platform}</Table.Cell>
-                  <Table.Cell>{SrvInfo.port}</Table.Cell>
+                  <Table.Cell>{ServerIP}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.home}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.hostid}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.hostname}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.lexxvers}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.platform}</Table.Cell>
+                  <Table.Cell>{SrvInfoTable.port}</Table.Cell>
                   <Table.Cell>{Uptime}</Table.Cell>
                 </Table.Row>)
               }
