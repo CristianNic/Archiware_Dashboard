@@ -6,11 +6,13 @@
 
 /* Pages */
 @import "./pages/Dashboard";
-@import "./pages/Dashboardv2";
+@import "./pages/SettingsPage/SettingsPage";
 
 /* Components */
-@import "./components/Controls_Sandbox/Controls_Sandbox";
-@import "./components/Settings/Settings";
+@import "./components/Header/Header";
+@import "./components/Sidebar/Sidebar";
+@import "./components/ServerMenu/ServerMenu";
+@import "./components/Layout/Layout";
 
 @import "./components/Tables/SrvInfo/SrvInfo";
 @import "./components/Tables/Client/Client";
@@ -19,6 +21,7 @@
 @import "./components/Tables/Jukebox/Jukebox";
 @import "./components/Tables/Pool/Pool";
 @import "./components/Tables/Jobs/Jobs";
+@import "./components/Tables/ArchiveInventory/ArchiveInventory";
 
 
 /* Semantic UI */
