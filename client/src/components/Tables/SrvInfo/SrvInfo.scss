@@ -1,24 +1,6 @@
 .srvinfo {
   &__table-wrapper {
-    width: 950px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; 
+    width: 715px;  
   }
-	&__heading {
-    font-size: 18px;
-		font-weight: bold;
-		color: rgb(2, 105, 132);
-		// color: rgb(2, 88, 110); // darker
-		margin-bottom: 7px;
-		margin-left: 2px;
-	}
 }
-
-h1 {
-  font-size: 20px;
-}
-
-
-
-// .ui.attached.segment {
-//   border: 0px;
-// }

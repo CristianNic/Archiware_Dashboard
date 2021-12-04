@@ -1,64 +1,56 @@
-.dashboard {
-	background-color: rgb(211, 211, 211);
-  color: black;
+.dash {
+	background-color: rgb(255, 255, 255); 
+	color: black;
 	&__container {
 		display: flex;
 		flex-direction: column;
-		// max-width: 1440px; // 1200px vs 1440px large laptop
-    // max-width: 1200px;
-    max-width: 1000px;
 		margin: 0 auto;
-		// order: dashed 5px blue;
-    padding-bottom: 1000px;
-    padding-top: 20px;
 	}
-  &__refresh {
+	&__main {
     display: flex;
-    flex-direction: row;
-    // justify-content: space-between;
-    justify-content: flex-end;
-    width: 1000px;    
-    &-timer {
-      display: flex;
-      flex-direction: row;
-      // width: 300px;
-    }
-  }
-  &__srvinfo {
-    width: 800px; // not applied by semantic ui
-
-  }
-  &__devices {
-    width: 200px;  // not applied 
-  }
-
-}
-.bold {
-	font-weight: 600;
-}
-.bolder {
-	font-weight: 900;
-}
-.black {
-	color: black;
-}
-.underline {
-	text-decoration: underline;
+		flex-direction: row;
+		max-width: 100%;
+		background-color: rgb(235, 235, 235);
+	}
 }
 
-.button.ui.button {
-  color:darkblue;
+/* Table Styling */
+.table-heading {
+  margin-bottom: 7px;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(2, 105, 132);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.ui.tabular.menu > .item {
+	background-color: rgb(255, 255, 255);
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(2, 88, 110);
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.ui.tabular.menu > .active.item {
+	background-color: rgb(235, 235, 235);
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(2, 88, 110);
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.ui.menu {
+	font-size: 14px;
+	border-radius: 0px;
+}
+.ui.table {
+	font-size: 12px;
+	margin-bottom: 0px;
+  overflow-wrap: break-word; 
 }
 
-.button {
-  width: 100px;
-}
-
-.space {
-  margin-bottom: 100px;
-}
-
-
-h1 {
-  font-size: 20px;
+/* Positive Green Table Cell */
+.ui.table td.positive,
+.ui.table tr.positive {
+	background-color: rgb(247, 255, 240) !important; // original rgb(252, 255, 245)
+	color: rgb(44, 102, 45) !important;
 }

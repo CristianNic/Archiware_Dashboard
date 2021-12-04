@@ -1,29 +1,6 @@
 .client {
   &__table-wrapper {
-    width: 800px;
     margin-bottom: 10px;
+    width: 715px;  
   }
-	&__heading {
-    font-size: 18px;
-		font-weight: bold;
-		color: rgb(2, 105, 132);
-		// color: rgb(2, 88, 110); // darker
-		margin-bottom: 7px;
-    margin-left: 2px;
-	}
-  &__buttons {
-    display: flex;
-    flex-direction: row;
-  }
-  &__button {
-    // margin-right: 10px; 
-  }
-}
-
-h1 {
-  font-size: 20px;
-}
-
-button.ui.button {
-  margin-right: 15px;
 }

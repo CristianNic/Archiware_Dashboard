@@ -1,22 +1,7 @@
 .devices {
+  margin-left: 10px; 
 	&__table-wrapper {
-		width: 250px;
-	}
-	&__heading {
-		margin-bottom: 3px;
-		font-weight: bold;
-		color: rgb(2, 105, 132);
-		// color: rgb(2, 88, 110); // darker
-	}
-	&__hostname {
-		font-weight: bold;
+    margin-bottom: 10px; 
+    width: 415px;  
 	}
 }
-
-h1 {
-	font-size: 20px;
-}
-
-// .table-wrapper {
-//     width: 200px;
-//   }
