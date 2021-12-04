@@ -33,9 +33,9 @@ devices.get("/:deviceID", (req, res) => {
 	const deviceInfoTrue = JSON.parse(loadDeviceInfoTrueData());
 	const deviceInfoFalse = JSON.parse(loadDeviceInfoFalseData());
 	if (req.params.deviceID === "awst0") {
-		res.json(deviceInfoTrue);
-	} else if (req.params.deviceID === "awst1") {
 		res.json(deviceInfoFalse);
+	} else if (req.params.deviceID === "awst1") {
+		res.json(deviceInfoTrue);
 	} else {
 		res.json({ Required: "no matching :deviceID" });
 	}
