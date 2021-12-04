@@ -29,15 +29,6 @@ class Jobs extends Component {
 
     const jobIDs = getJobNames.data.jobs.map(job => job.ID) 
 
-    // // ===> GET JobInfo - keep for later
-    // const getJobInfoPromises = []
-    // jobIDs.forEach((id) => {
-    //   getJobInfoPromises.push(axios.get(`${API_URL}/general/jobs/${id}`))
-    // })
-    // // console.log("getJobInfoPromises", getJobInfoPromises)
-    // const getJobInfo = await Promise.all(getJobInfoPromises)
-    // console.log('getJobInfo:', getJobInfo)
-
     const getJobProtocolPromises = []
     jobIDs.forEach((id) => {
       getJobProtocolPromises.push(axios.get(`${API_URL}/general/jobs/${id}/protocol`, server(this.props.activeServer)))
