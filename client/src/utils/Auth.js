@@ -1,5 +1,3 @@
-// export const API_URL = process.env.REACT_APP_API_URL;
-
 export const API_URL = process.env.REACT_APP_BACKEND_URL; // http://localhost:8090
 
 const USERNAME = process.env.REACT_APP_USERNAME;
@@ -15,7 +13,6 @@ export const auth = {
 		"Access-Control-Allow-Credentials": "true",
 		"Access-Control-Allow-Headers": "origin",
 	},
-	// withCredentials : false,
 	crossDomain: true,
 };
 
