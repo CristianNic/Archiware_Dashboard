@@ -5,14 +5,16 @@ const username_BSMini = process.env.USERNAME_BackupServerMini;
 const password_BSMini = process.env.PASSWORD_BackupServerMini;
 
 const token = `${username_BSMini}:${password_BSMini}`;
-const encodedToken = Buffer.from(token).toString("base64");
+const encodedTokenBSMini = Buffer.from(token).toString("base64");
 
 const authBSMini = {
 	headers: {
-		Authorization: "Basic " + encodedToken,
+		Authorization: "Basic " + encodedTokenBSMini,
 	},
 };
 exports.authBSMini = authBSMini
+exports.encodedTokenBSMini = encodedTokenBSMini
+
 
 //---------------- Munki Server Basic Auth ---------------------//
 const username_MunkiServer = process.env.USERNAME_MunkiServer;
@@ -27,6 +29,7 @@ const authMS = {
   }
 }
 exports.authMS = authMS
+exports.encodedTokenMS = encodedTokenMS
 
 //---------------- Mock API Basic Auth ------------------------//
 const username_MockAPI = process.env.USERNAME_MockAPI;
@@ -41,6 +44,7 @@ const authMA = {
   }
 }
 exports.authMA = authMA
+exports.encodedTokenMA = encodedTokenMA
 
 
 
