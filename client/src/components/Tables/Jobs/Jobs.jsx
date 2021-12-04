@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { Component } from "react";
+import axios from "axios";
 import { Table } from 'semantic-ui-react';
 import { API_URL } from '../../../utils/Auth';
 import server from '../../../utils/server';
@@ -152,7 +152,5 @@ class Jobs extends Component {
 }
 
 export default Jobs
-
-
 
 
