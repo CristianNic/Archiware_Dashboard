@@ -1,19 +1,30 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+// *, *::before, *::after {
+//     box-sizing: border-box;
+//     margin: 0;
+//     padding: 0;
+// }
 * {
 	box-sizing: border-box;
 	scroll-behavior: smooth;
 	margin: 0;
 	padding: 0;
-	font-family: $primary-font, sans-serif;
+	// font-family: $primary-font, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 html {
 	font-size: 10px; // this one has to be absolute size
 	color: $black; 
   // background-color: rgba(black, 0.1);
+}
+body {
+  font-size: 13px;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 a {
 	display: block;
