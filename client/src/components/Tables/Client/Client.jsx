@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import { API_URL } from '../../../utils/Auth';
 import { Table } from 'semantic-ui-react';
+import { API_URL } from '../../../utils/Auth';
 import server from '../../../utils/server';
 
 class Client extends Component {
 
   state = {
-    clientTable: [],
-    serverAPI: []
+    ClientTable: [],
   }
 
   componentDidMount() {
@@ -16,10 +15,8 @@ class Client extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    console.log("prevProps ", prevProps)
-    console.log("this.props.activeServer ", this.props.activeServer)
-
-    if (prevProps.activeServer !== this.props.activeServer)
+    if (prevProps.activeServer !== this.props.activeServer ||
+        prevProps.refresh !== this.props.refresh)
     {
       this.getClientNamesInfo()
     }
@@ -29,7 +26,7 @@ class Client extends Component {
     
     const getClientNames = await axios.get(`${API_URL}/general/clients`, server(this.props.activeServer))
 
-    const clientNames = getClientNames.data.clients.map(client => client.ID) // ['Synology', 'localhost', ...]
+    const clientNames = getClientNames.data.clients.map(client => client.ID)
 
     const getClientInfoPromises = []
     clientNames.forEach(clientID => {
@@ -42,7 +39,7 @@ class Client extends Component {
     const port = clientInfo.map(port => port.data.port)
     const username = clientInfo.map(username => username.data.username)
     const isThin = clientInfo.map(thin => thin.data.isthin)
-    // Returns true in case the client is of type Workstation (as opposed to type Server)
+
     const isThinFormatted = []
     isThin.forEach(station => {
       if (station === true) {
@@ -51,7 +48,6 @@ class Client extends Component {
         isThinFormatted.push("Server")
       }
     })
-    // ===> Form DataTable Array 
     const clientTable = []
     for (let i = 0; i < clientInfo.length; i++) {
       const obj = {
@@ -65,20 +61,18 @@ class Client extends Component {
       clientTable.push(obj)
     }
     this.setState({
-      clientTable: clientTable,
+      ClientTable: clientTable,
     })
   }
 
   render() {
 
-    const { clientTable } = this.state
-
-    console.log("3. Client: active Server", this.props.activeServer)
+    const { ClientTable } = this.state
     
     return (
       <section className="client">
-        <h3 className="client__heading">Client Info</h3>
-        <div className="client__table-wrapper">
+        <h3 className="table-heading">Client Info</h3>
+        <div className="client__table-wrapper border">
           <Table compact celled>
             <Table.Header>
               <Table.Row>
@@ -91,7 +85,7 @@ class Client extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {Object.keys(clientTable).length === 0 ?
+              {Object.keys(ClientTable).length === 0 ?
                 (<Table.Row>
                   <Table.Cell>loading...</Table.Cell>
                   <Table.Cell>loading...</Table.Cell>
@@ -101,7 +95,7 @@ class Client extends Component {
                   <Table.Cell>loading...</Table.Cell>
                 </Table.Row>)
                 :
-                (clientTable.map(client => 
+                (ClientTable.map(client => 
                   <Table.Row>
                     <Table.Cell>{client.clientID}</Table.Cell>
                     <Table.Cell>{client.description}</Table.Cell>
@@ -114,11 +108,6 @@ class Client extends Component {
               }
             </Table.Body>
           </Table>
-          {/* <br /> */}
-          {/* <div className="client__buttons">
-            <Button className="client__button">Update Client Password</Button>
-            <Button className="client__button">Ping Client</Button>
-          </div> */}
         </div>
       </section>
     )
