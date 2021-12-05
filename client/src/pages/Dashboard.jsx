@@ -10,7 +10,7 @@ class Dashboard extends Component {
     activeServer: 'BackupServerMini',
     activePage: 'status',              
     updateIntervalMin: 20, 
-    refresh: true,                     
+    refresh: true,
   }
 
   componentDidMount() {
