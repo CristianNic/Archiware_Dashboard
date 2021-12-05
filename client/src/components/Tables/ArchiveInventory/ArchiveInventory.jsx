@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import { API_URL } from '../../../utils/Auth';
+import { API_URL } from '../../../utils/auth';
 import { Table } from 'semantic-ui-react';
 
 class ArchiveInventory extends Component {
