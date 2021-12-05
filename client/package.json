@@ -1,5 +1,5 @@
 {
-  "name": "archiware_dashboard",
+  "name": "archiware_p5_monitoring_dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
