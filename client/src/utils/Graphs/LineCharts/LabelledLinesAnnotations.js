@@ -1,7 +1,7 @@
+// TODO: If Plotly is chosen here a sample of a graph helper function
 // Source: https://plotly.com/javascript/line-charts/
 
 export function LabelledLinesAnnotations(xData, yData, labels) {
-  
 	var colors = [
 		"rgba(67,67,67,1)",
 		"rgba(115,115,115,1)",
@@ -35,7 +35,7 @@ export function LabelledLinesAnnotations(xData, yData, labels) {
 				size: 12,
 			},
 		};
-    data.push(result, result2);
+		data.push(result, result2);
 		// console.log("Data - after 1st for loop", data);
 	}
 
