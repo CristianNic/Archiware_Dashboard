@@ -74,7 +74,7 @@ class Devices extends Component {
                 </Table.Row>)
                 :
                 (DeviceNamesInfo.map(device =>
-                  <Table.Row>
+                  <Table.Row key={device}>
                     <Table.Cell>{device.device}</Table.Cell>                 
                     {device.cleaning === true ?
                       (<Table.Cell negative>No</Table.Cell>)

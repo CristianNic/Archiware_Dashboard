@@ -84,6 +84,7 @@ class Jobs extends Component {
       } else {
         rest.push(job)
       }
+      return false
     })
     const jobInfoTableSorted = [...failure, ...warning, ...success, ...rest]
 
@@ -120,21 +121,21 @@ class Jobs extends Component {
                 :
                 (jobInfoTableSorted.map(job =>
                   job.result === 'success' ?
-                    ( <Table.Row positive>
+                    ( <Table.Row positive key={job.jobID}>
                         <Table.Cell>{job.jobID}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
                         <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell className>{job.report}</Table.Cell>
                       </Table.Row>)
                   : job.result === 'warning' ?
-                    ( <Table.Row warning>
+                    ( <Table.Row warning key={job.jobID}>
                         <Table.Cell>{job.jobID}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
                         <Table.Cell>{job.status}</Table.Cell>
                         <Table.Cell>{job.report}</Table.Cell>
                       </Table.Row>)
                   :
-                    ( <Table.Row negative>
+                    ( <Table.Row negative key={job.jobID}>
                         <Table.Cell>{job.jobID}</Table.Cell>
                         <Table.Cell>{job.result}</Table.Cell>
                         <Table.Cell>{job.status}</Table.Cell>

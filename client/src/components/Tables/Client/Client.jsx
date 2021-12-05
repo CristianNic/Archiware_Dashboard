@@ -96,7 +96,7 @@ class Client extends Component {
                 </Table.Row>)
                 :
                 (ClientTable.map(client => 
-                  <Table.Row>
+                  <Table.Row key={client.clientID}>
                     <Table.Cell>{client.clientID}</Table.Cell>
                     <Table.Cell>{client.description}</Table.Cell>
                     <Table.Cell>{client.hostname}</Table.Cell>
