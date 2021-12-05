@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Icon, Menu } from 'semantic-ui-react'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 class Sidebar extends Component {
   state = {
@@ -28,7 +28,7 @@ class Sidebar extends Component {
             active={activePage === 'status'}
             onClick={selectPageClick}
           >
-            <Icon name='folder left' />
+            <Icon name='folder' className='left' />
             {/* <Icon name='clipboard left' /> */}
               Status
             <Icon name='angle right' />
@@ -40,7 +40,7 @@ class Sidebar extends Component {
             onClick={selectPageClick}
           >
             {/* <Icon name='hdd left' /> */}
-            <Icon name='archive left' />
+            <Icon name='archive' className='left' />
               Archive Index
             <Icon name='angle right' />
             
@@ -51,7 +51,7 @@ class Sidebar extends Component {
             active={activePage === 'graphs'}
             onClick={selectPageClick}
           >
-            <Icon name='area graph left' />
+            <Icon name='area graph' className='left' />
               Graphs
             <Icon name='angle right' />
           </Menu.Item>
@@ -61,7 +61,7 @@ class Sidebar extends Component {
             active={activePage === 'alerts'}
             onClick={selectPageClick}
           >
-            <Icon name='alarm left' />
+            <Icon name='alarm' className='left' />
             {/* <Icon name='mail left' /> */}
             Alerts 
             <Icon name='angle right' />
@@ -83,7 +83,7 @@ class Sidebar extends Component {
             active={activePage === 'settings'}
             onClick={selectPageClick}
           >
-            <Icon name='wrench left' />
+            <Icon name='wrench' className='left' />
             {/* <Icon name='settings left' /> */}
             {/* <Icon name='setting left' /> */}
               Settings

@@ -21,7 +21,7 @@ class Header extends Component {
           active={activeItem === 'sidebar'}
           onClick={this.handleItemClick}
           >
-            <Icon name='sidebar left' className= "sidebar-icon" /> 
+            <Icon name='sidebar' className= "sidebar-icon left" /> 
           </Menu.Item>
 
           <Menu.Item header>Archiware P5 Monitoring</Menu.Item>
@@ -31,7 +31,7 @@ class Header extends Component {
             active={activeItem === 'login'}
             onClick={this.handleItemClick}
             >
-            <Icon name='user left' />
+            <Icon name='user' className='left' />
             Login
           </Menu.Item>
         </Menu>
