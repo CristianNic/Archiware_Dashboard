@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import axios from "axios";
+// import { API_URL } from '../../../utils/auth';
 import { Table } from 'semantic-ui-react';
-// import { API_URL } from '../../../utils/Auth';
 
 class Pool extends Component {
 

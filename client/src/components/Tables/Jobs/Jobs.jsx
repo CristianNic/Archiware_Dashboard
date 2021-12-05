@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Table } from 'semantic-ui-react';
-import { API_URL } from '../../../utils/Auth';
+import { API_URL } from '../../../utils/auth';
 import server from '../../../utils/server';
 
 class Jobs extends Component {
@@ -103,7 +103,7 @@ class Jobs extends Component {
           <Table compact celled striped className="jobs-table">
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Job ID</Table.HeaderCell>  
+                <Table.HeaderCell>Job{"\u00A0"}ID</Table.HeaderCell>  
                 <Table.HeaderCell>Result</Table.HeaderCell>
                 <Table.HeaderCell>Status</Table.HeaderCell>
                 <Table.HeaderCell>Report</Table.HeaderCell>

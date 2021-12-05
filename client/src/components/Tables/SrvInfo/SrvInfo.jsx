@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Table } from 'semantic-ui-react';
-import { API_URL } from '../../../utils/Auth';
+import { API_URL } from '../../../utils/auth';
 import server from '../../../utils/server';
   
 class SrvInfo extends Component {
