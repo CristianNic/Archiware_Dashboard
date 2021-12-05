@@ -13,28 +13,17 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    window.location.reload(false);
+    window.location.reload(false); // test
   }
   
   render(props) {
 
-    // console.log("Sidebar Props", this.props.location.aboutProps.activePage)
-
-    // console.log(this.props.location.aboutProps.activeServer)
-    // console.log(this.props.location.aboutProps.activePage)
-    // console.log(this.props.location.activePage)
-
     const { activePage, activeServer } = this.props.location.aboutProps
-    console.log("SettingsPage:", activeServer)
-    console.log("SettingsPage:", activePage)
-    // console.log("SettingsPage:", activeServer)
-    // console.log("SettingsPage:", yes)
-
+    console.log("SettingsPage - activeServer:", activeServer)
+    console.log("SettingsPage - activePage:", activePage)
     
-
     return (
-      <section className="settings">
-
+      <section className="settingsPage">
         <Header />
         <ServerMenu />
 
