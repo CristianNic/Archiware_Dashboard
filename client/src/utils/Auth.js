@@ -1,4 +1,4 @@
-export const API_URL = process.env.REACT_APP_BACKEND_URL; // http://localhost:8090
+export const API_URL = process.env.REACT_APP_SERVER_URL; // http://localhost:8090
 
 // Currently the Proxy Server does not require auth, 
 // if that changes then add this auth config for each route
