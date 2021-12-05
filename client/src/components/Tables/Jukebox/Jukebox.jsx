@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Table } from 'semantic-ui-react';
-import { API_URL } from '../../../utils/Auth';
+import { API_URL } from '../../../utils/auth';
 import server from '../../../utils/server';
 
 class Jukebox extends Component {
@@ -115,7 +115,7 @@ class Jukebox extends Component {
                 </Table.Row>)
                 :
                 (JukeboxTable.map(jukebox =>
-                  <Table.Row>
+                  <Table.Row key={jukebox.slot}>
                       <Table.Cell>{jukebox.volumeID}</Table.Cell>
                       <Table.Cell>{jukebox.label}</Table.Cell>
                       <Table.Cell>{jukebox.barcode}</Table.Cell>
