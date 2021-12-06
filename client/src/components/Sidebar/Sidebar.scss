@@ -3,33 +3,31 @@
   height: 100%;
 	width: 180px;
   padding-bottom: 500px;
-	background-color: rgb(87, 97, 112);
+	background-color: $p5-medium-gray;
   border-top: 0px;
 	& .item {
-    color: rgb(212, 211, 211);
+    color: $p5-lighter-gray;
     font-size: 14px;
     font-weight: 500;
     padding: 18px 12px 18px 5px; 
     &:hover {
-      background-color: rgb(104, 116, 134) !important;
-      color: rgb(212, 211, 211) !important;
+      background-color: $p5-light-gray !important;
+      color: $p5-lighter-gray !important;
       border-radius: 0px;
     }   
 	}
 	& .active.item {
-    background-color: rgb(104, 116, 134);
+    background-color: $p5-light-gray;
     border-radius: 0px;
 	}
 }
 .active.item:hover {
-  background-color: rgb(104, 116, 134) !important;
+  background-color: $p5-light-gray !important;
 }
 .ui.vertical.menu .item > i.icon.left {
   float: none;
   margin-right: 14px;
 }
-
-
 
 
 

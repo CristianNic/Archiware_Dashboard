@@ -1,6 +1,6 @@
 .dash {
-	background-color: rgb(255, 255, 255); 
-	color: black;
+	background-color: $white; 
+	color: $black;
 	&__container {
 		display: flex;
 		flex-direction: column;
@@ -10,7 +10,7 @@
     display: flex;
 		flex-direction: row;
 		max-width: 100%;
-		background-color: rgb(235, 235, 235);
+		background-color: $light-grey;
 	}
 }
 
@@ -19,22 +19,20 @@
   margin-bottom: 7px;
   font-size: 16px;
   font-weight: bold;
-  color: rgb(2, 105, 132);
+  color: $blue;
   font-family: Arial, Helvetica, sans-serif;
 }
 .ui.tabular.menu > .item {
-	background-color: rgb(255, 255, 255);
+	background-color: $white;
 	font-size: 16px;
 	font-weight: bold;
-	color: rgb(2, 88, 110);
 	padding-left: 15px;
 	padding-right: 15px;
 }
 .ui.tabular.menu > .active.item {
-	background-color: rgb(235, 235, 235);
+	background-color: $light-grey;
 	font-size: 16px;
 	font-weight: bold;
-	color: rgb(2, 88, 110);
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -51,6 +49,6 @@
 /* Positive Green Table Cell */
 .ui.table td.positive,
 .ui.table tr.positive {
-	background-color: rgb(247, 255, 240) !important; // original rgb(252, 255, 245)
-	color: rgb(44, 102, 45) !important;
+	background-color: $light-green !important; 
+	color: $green !important;
 }

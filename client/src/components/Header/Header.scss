@@ -1,22 +1,22 @@
 .ui.menu.dashboard-header {
-  background-color: rgb(61, 68, 79);
+  background-color: $p5-dark-gray;
   height: 50px;
   & .right-side { 
     padding-left: 32px !important;
     padding-right: 32px !important;
   }
   & .item {
-    background-color: rgb(61, 68, 79) !important;
-    color: rgb(212, 211, 211); 
+    background-color: $p5-dark-gray !important;
+    color: $p5-lighter-gray; 
     padding-right: 12px;
     padding-left: 12px;
     &:hover {
-      background-color: rgb(61, 68, 79) !important;
-      color: rgb(212, 211, 211) !important;
+      background-color: $p5-dark-gray !important;
+      color: $p5-lighter-gray !important;
     }
     & .active.item {
-      background-color: rgb(61, 68, 79) !important;
-      color: rgb(212, 211, 211) !important;
+      background-color: $p5-dark-gray !important;
+      color: $p5-lighter-gray !important;
       border-radius: 0px;
     }
   }
@@ -25,7 +25,7 @@
   font-size: 18px;
 }
 .ui.menu .item > i.icon {
-  color: rgb(212, 211, 211);
+  color: $p5-lighter-gray;
   margin-right: 10px
 }
 i.sidebar.left.icon.sidebar-icon {

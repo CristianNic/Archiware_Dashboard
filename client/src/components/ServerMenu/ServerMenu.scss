@@ -1,17 +1,17 @@
 .ui.menu.server-menu {
-  background-color: rgb(87, 97, 112);
-  padding-left: 179px;
-  & .item {
-    font-size: 14px;
-    color: rgb(212, 211, 211);
-    font-weight: 500;
-    &:hover {
-      background-color: rgb(104, 116, 134) !important;
-      color: rgb(212, 211, 211) !important;
-      } 
-    }
-  & .active.item {
-    background-color: rgb(104, 116, 134);
-    border-radius: 0px;
+	background-color: $p5-medium-gray;
+	padding-left: 179px;
+	& .item {
+		font-size: 14px;
+		color: $p5-lighter-gray;
+		font-weight: 500;
+		&:hover {
+			background-color: $p5-light-gray !important;
+			color: $p5-lighter-gray !important;
+		}
+	}
+	& .active.item {
+		background-color: $p5-light-gray;
+		border-radius: 0px;
 	}
 }
