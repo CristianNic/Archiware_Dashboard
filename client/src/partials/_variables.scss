@@ -3,30 +3,24 @@ $tablet-breakpoint: 768px;
 $desktop-breakpoint: 1440px;
 
 /* Layout spacing */
-$side-margin-mob: 1.6rem;   // check for iphone
+$side-margin-mob: 1.6rem; 
 $side-margin-tab: 2.4rem;
 $side-margin-desk: 18rem;
 $max-width: 1080px;
 
-/* Global */
-$paragraph-text: #323232;
-$text-label-style: #afafaf;
-$text-field-border: #e1e1e1;
-$text-field-background-fill: #fafafa;
-
 /* Colours */
-$black: #13182c;
-$indigo: #2e66e5;
-$slate: #5c667e;
-$cloud: #bdc5d5;
-$white: #ffffff;
-$graphite: #232940;
-$light-grey: #f7f8f9;
-$green: #158463;
-$red: #c94515;
+$black: rgb(0, 0, 0);
+$blue: rgb(2, 105, 132);              // table headers
+$green: rgb(44, 102, 45);             // positive cell text 
+$light-green: rgb(247, 255, 240);     // positive cell
+$white: rgb(255, 255, 255);
+$light-grey: rgb(235, 235, 235);
+
+$p5-lighter-gray: rgb(212, 211, 211); // menu item text
+$p5-light-gray: rgb(104, 116, 134);   // select 
+$p5-medium-gray: rgb(87, 97, 112);    // sidebar and menu   
+$p5-dark-gray: rgb(61, 68, 79);       // header
 
 /* Fonts */ 
-// $primary-font: "Titillium Web";
-$primary-font: "Arial, Helvetica, sans-serif";
-$primary-font: "Arial";
-// font-family: Arial, Helvetica, sans-serif;
+$primary-font: "Arial, Helvetica";
+
