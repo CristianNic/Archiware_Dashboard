@@ -8,3 +8,15 @@
     // overflow-y: scroll;  /* or auto */
 	}
 }
+
+th.jukebox__header-green {
+  // background-color: $light-green !important;
+  color: $green !important;
+  font-weight: 400 !important;
+}
+
+td.jukebox__cell-green {
+  // background-color: $light-green !important;
+  color: $green !important;
+  font-weight: 400 !important;
+}

@@ -6,13 +6,10 @@
     // height: 300px;
     // overflow-y: scroll;  /* or auto */
 	}
-	&__dropdown {
-		font-weight: bold;
-    background-color: white;
-    margin-right: 20px;
-    height: 30px;
-    &-table-wrapper {
-      display: flex;
-    }
-	}
 }
+
+td.jobs__text-green {
+  // background-color: $light-green !important;
+  color: $green !important;
+}
+
