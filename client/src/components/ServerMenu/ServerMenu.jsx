@@ -5,23 +5,20 @@ export default class MenuHeading extends Component {
 
   render() {
 
+    const { activeServer, selectServerClick, sidebar } = this.props
+
     return (
       <div className="server-menu__container">
-        <Menu className="server-menu">
+        <Menu className={`server-menu ${sidebar === true ? "padding" : ""}`}>
           <Menu.Item
             name='BackupServerMini'
-            active={this.props.activeServer === 'BackupServerMini'}
-            onClick={this.props.selectServerClick}
+            active={activeServer === 'BackupServerMini'}
+            onClick={selectServerClick}
           />
           <Menu.Item
             name='MunkiServer'
-            active={this.props.activeServer === 'MunkiServer'}
-            onClick={this.props.selectServerClick}
-          />
-          <Menu.Item
-            name='MockAPI'
-            active={this.props.activeServer === 'MockAPI'}
-            onClick={this.props.selectServerClick}
+            active={activeServer === 'MunkiServer'}
+            onClick={selectServerClick}
           />
         </Menu>
       </div>
