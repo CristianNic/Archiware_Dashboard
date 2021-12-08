@@ -5,14 +5,18 @@
 @import "./partials/global";
 
 /* Pages */
-@import "./pages/Dashboard";
-@import "./pages/SettingsPage/SettingsPage";
+@import "./pages/MainPage";
 
 /* Components */
 @import "./components/Header/Header";
 @import "./components/Sidebar/Sidebar";
 @import "./components/ServerMenu/ServerMenu";
-@import "./components/Layout/Layout";
+
+@import "./components/Sections/Status/Status";
+@import "./components/Sections/Archive/Archive";
+@import "./components/Sections/Graphs/Graphs";
+@import "./components/Sections/Alerts/Alerts";
+@import "./components/Sections/Settings/Settings";
 
 @import "./components/Tables/SrvInfo/SrvInfo";
 @import "./components/Tables/Client/Client";
@@ -23,7 +27,5 @@
 @import "./components/Tables/Jobs/Jobs";
 @import "./components/Tables/ArchiveInventory/ArchiveInventory";
 
-
 /* Semantic UI */
 @import "semantic-ui-css/semantic.min.css";
-
