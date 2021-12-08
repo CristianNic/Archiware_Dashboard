@@ -19,7 +19,8 @@ class Header extends Component {
           <Menu.Item
           name='sidebar'
           active={activeItem === 'sidebar'}
-          onClick={this.handleItemClick}
+          // onClick={this.handleItemClick}
+          onClick={this.props.selectSidebar}
           >
             <Icon name='sidebar' className= "sidebar-icon left" /> 
           </Menu.Item>
