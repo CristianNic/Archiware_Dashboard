@@ -30,51 +30,67 @@ class Jukebox extends Component {
     const getJukeboxNames = await axios.get(`${API_URL}/general/jukeboxes`, server(this.props.activeServer))
     const jukeboxName = getJukeboxNames.data.jukeboxes.map(device => device.ID)
 
-    const getJukeboxInfo = await (axios.get(`${API_URL}/general/jukeboxes/${jukeboxName}`, server(this.props.activeServer)))
-    const slotcount = getJukeboxInfo.data.slotcount
+    if (jukeboxName[0] === "Not Found") {
+      const jukeboxNameNotFound = "Not Found"
+      const jukeboxTableNotFound = [{
+        volumeID: [],
+        label: [],
+        barcode: [],
+        mode: [],
+        slot: []
+      }]
+      this.setState({
+        JukeboxName: jukeboxNameNotFound,
+        JukeboxTable: jukeboxTableNotFound
+      })
+    } else {
 
-    const slotStrings = []
-    const slots = new Array(slotcount)
-    for (let i = 0; i < slotcount; i++) {
-      slots[i] = i + 1
-      const string = slots[i].toString()
-      slotStrings.push(string)
-    }
-    const getJukeboxVolumePromises = []
-    slotStrings.forEach((slot) => {
-      getJukeboxVolumePromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukeboxName}/volumes/${slot}`, server(this.props.activeServer)))
-    })
+      const getJukeboxInfo = await (axios.get(`${API_URL}/general/jukeboxes/${jukeboxName}`, server(this.props.activeServer)))
+      const slotcount = getJukeboxInfo.data.slotcount
 
-    const getJukeboxVolume = await Promise.all(getJukeboxVolumePromises)
-
-    const jukeboxVolumeIDs = getJukeboxVolume.map(volume => volume.data.volumes[0].ID) 
-
-    const getVolumeNamesPromises = []
-    jukeboxVolumeIDs.forEach((volumeID) => {
-      getVolumeNamesPromises.push(axios.get(`${API_URL}/general/volumes/${volumeID}`, server(this.props.activeServer)))
-    })
-
-    const getVolumeNames = await Promise.all(getVolumeNamesPromises) 
-
-    const label = getVolumeNames.map(volume => volume.data.label) 
-    const mode = getVolumeNames.map(volume => volume.data.mode) 
-    const barcode = getVolumeNames.map(volume => volume.data.barcode)
-    
-    const jukeboxTable = []
-    for (let i = 0; i < jukeboxVolumeIDs.length; i++) {
-      const obj = {
-        volumeID: jukeboxVolumeIDs[i],
-        label: label[i],
-        barcode: barcode[i],
-        mode: mode[i],
-        slot: slotStrings[i]
+      const slotStrings = []
+      const slots = new Array(slotcount)
+      for (let i = 0; i < slotcount; i++) {
+        slots[i] = i + 1
+        const string = slots[i].toString()
+        slotStrings.push(string)
       }
-      jukeboxTable.push(obj)
+      const getJukeboxVolumePromises = []
+      slotStrings.forEach((slot) => {
+        getJukeboxVolumePromises.push(axios.get(`${API_URL}/general/jukeboxes/${jukeboxName}/volumes/${slot}`, server(this.props.activeServer)))
+      })
+
+      const getJukeboxVolume = await Promise.all(getJukeboxVolumePromises)
+
+      const jukeboxVolumeIDs = getJukeboxVolume.map(volume => volume.data.volumes[0].ID)
+
+      const getVolumeNamesPromises = []
+      jukeboxVolumeIDs.forEach((volumeID) => {
+        getVolumeNamesPromises.push(axios.get(`${API_URL}/general/volumes/${volumeID}`, server(this.props.activeServer)))
+      })
+
+      const getVolumeNames = await Promise.all(getVolumeNamesPromises)
+
+      const label = getVolumeNames.map(volume => volume.data.label)
+      const mode = getVolumeNames.map(volume => volume.data.mode)
+      const barcode = getVolumeNames.map(volume => volume.data.barcode)
+    
+      const jukeboxTable = []
+      for (let i = 0; i < jukeboxVolumeIDs.length; i++) {
+        const obj = {
+          volumeID: jukeboxVolumeIDs[i],
+          label: label[i],
+          barcode: barcode[i],
+          mode: mode[i],
+          slot: slotStrings[i]
+        }
+        jukeboxTable.push(obj)
+      }
+      this.setState({
+        JukeboxName: jukeboxName,
+        JukeboxTable: jukeboxTable
+      })
     }
-    this.setState({
-      JukeboxName: jukeboxName,
-      JukeboxTable: jukeboxTable
-    })
   }
 
   render() {
@@ -91,6 +107,9 @@ class Jukebox extends Component {
                 <Table.HeaderCell colSpan='1'>Jukebox</Table.HeaderCell>
                 {Object.keys(JukeboxTable).length === 0 ?
                   (<Table.HeaderCell colSpan='4'>loading...</Table.HeaderCell>)
+                : Object.keys(JukeboxTable).length === 1 ?
+                  
+                  (<Table.HeaderCell colSpan='4' className="jukebox__header-green">None</Table.HeaderCell>)
                 : (<Table.HeaderCell colSpan='4'>{JukeboxName}</Table.HeaderCell>)
                 }
               </Table.Row>
@@ -113,7 +132,12 @@ class Jukebox extends Component {
                   <Table.Cell>loading...</Table.Cell>
                   <Table.Cell>loading...</Table.Cell>
                 </Table.Row>)
-                :
+              :
+                Object.keys(JukeboxTable).length === 1 ?
+                  (<Table.Row>
+                    <Table.Cell className="jukebox__cell-green">None</Table.Cell>
+                  </Table.Row>)
+              :
                 (JukeboxTable.map(jukebox =>
                   <Table.Row key={jukebox.slot}>
                       <Table.Cell>{jukebox.volumeID}</Table.Cell>
