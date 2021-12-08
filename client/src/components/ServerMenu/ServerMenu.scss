@@ -1,6 +1,5 @@
 .ui.menu.server-menu {
 	background-color: $p5-medium-gray;
-	padding-left: 179px;
 	& .item {
 		font-size: 14px;
 		color: $p5-lighter-gray;
@@ -14,4 +13,7 @@
 		background-color: $p5-light-gray;
 		border-radius: 0px;
 	}
+}
+.padding {
+  padding-left: 179px;
 }
