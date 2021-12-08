@@ -1,29 +1,17 @@
 import React, { Component } from 'react'
 import { Icon, Menu } from 'semantic-ui-react'
-import { NavLink } from 'react-router-dom'
 
 class Sidebar extends Component {
-  state = {
-    activeServer: "100.234.536.413"
-  }
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-  // added --> 
-  // active={activeItem === 'status'}
-  // onClick={this.handleItemClick}
-  // onClick = { this.handleItemClick }
+
+  state = { }
 
   render() {
-    const { activePage, selectPageClick} = this.props
-
-    // console.log("Sidebar", activeItem)
-
-    const activeServer = this.props.activeServer
+    const { activePage, selectPageClick } = this.props
 
     return (
       <div className="menu-container">
         <Menu vertical className="sidebar-menu">
           <Menu.Item
-            as={NavLink} to="/status"
             name='status'
             active={activePage === 'status'}
             onClick={selectPageClick}
@@ -34,9 +22,8 @@ class Sidebar extends Component {
             <Icon name='angle right' />
           </Menu.Item>
           <Menu.Item
-            as={NavLink} to="/archive"
-            name='archiveIndex'
-            active={activePage === 'archiveIndex'}
+            name='archive'
+            active={activePage === 'archive'}
             onClick={selectPageClick}
           >
             {/* <Icon name='hdd left' /> */}
@@ -46,7 +33,6 @@ class Sidebar extends Component {
             
           </Menu.Item>
           <Menu.Item
-            as={NavLink} to="/graphs"
             name='graphs'
             active={activePage === 'graphs'}
             onClick={selectPageClick}
@@ -56,7 +42,6 @@ class Sidebar extends Component {
             <Icon name='angle right' />
           </Menu.Item>
           <Menu.Item
-            as={NavLink} to="/alerts"
             name='alerts'
             active={activePage === 'alerts'}
             onClick={selectPageClick}
@@ -67,18 +52,6 @@ class Sidebar extends Component {
             <Icon name='angle right' />
           </Menu.Item>
           <Menu.Item
-            // as={NavLink} to="/settings"
-
-            as={NavLink} to={{
-              pathname: "/settings",
-              aboutProps: {
-                activeServer: activeServer,
-                activePage: "settings",
-
-              }
-            }}
-
-
             name='settings'
             active={activePage === 'settings'}
             onClick={selectPageClick}
