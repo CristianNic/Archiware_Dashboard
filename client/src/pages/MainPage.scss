@@ -1,0 +1,83 @@
+.mainPage {
+	background-color: $white; 
+	color: $black;
+	&__container {
+		display: flex;
+		flex-direction: column;
+		margin: 0 auto;
+	}
+	&__main {
+    height: 1050px;
+    display: flex;
+		flex-direction: row;
+		max-width: 100%;
+		background-color: $light-grey;
+	}
+}
+
+/* Table Styling */
+.table-heading {
+  margin-bottom: 7px;
+  font-size: 16px;
+  font-weight: bold;
+  color: $blue;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.ui.tabular.menu > .item {
+	background-color: $white;
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.ui.tabular.menu > .active.item {
+	background-color: $light-grey;
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.ui.menu {
+	font-size: 14px;
+	border-radius: 0px;
+}
+.ui.table {
+	font-size: 12px;
+	margin-bottom: 0px;
+  overflow-wrap: break-word; 
+}
+
+/* Positive Green Table Cell */
+.ui.table td.positive,
+.ui.table tr.positive {
+	background-color: $light-green !important; 
+	color: $green !important;
+}
+
+/* Temp Section Placeholder */ 
+.temp {
+  &__container {
+    margin-left: 100px;
+    margin-top: 75px;
+  }
+  &__heading {
+    font-size: 16px;
+    font-weight: bold;
+    color: $blue;
+    &-main{
+      font-size: 18px;
+      font-weight: bold;
+      color: $blue;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
