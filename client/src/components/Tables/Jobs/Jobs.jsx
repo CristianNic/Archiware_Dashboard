@@ -26,6 +26,7 @@ class Jobs extends Component {
     // communicating with Archiware, currently filters are still being worked on:
     // "completed, failed, pending, running or warning" return "Internal Server Error:"
     const getJobNames = await axios.get(`${API_URL}/general/jobs/`, server(this.props.activeServer))
+    console.log('getJobNames:', getJobNames)
 
     const jobIDs = getJobNames.data.jobs.map(job => job.ID)
 
@@ -47,6 +48,7 @@ class Jobs extends Component {
         getJobInfoPromises.push(axios.get(`${API_URL}/general/jobs/${id}`, server(this.props.activeServer)))
       })
       const getJobInfo = await Promise.all(getJobInfoPromises)
+      console.log('getJobInfo:', getJobInfo)
 
       const label = getJobInfo.map(info => info.data.label)
 

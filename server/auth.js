@@ -1,51 +1,37 @@
 require("dotenv").config();
 
-//---------------- Backup Server Mini Basic Auth ---------------//
-const username_BSMini = process.env.USERNAME_BackupServerMini;
-const password_BSMini = process.env.PASSWORD_BackupServerMini;
+//---------------- Auth, Server 1 ---------------//
+const s1_token = `${process.env.s1_USERNAME}:${process.env.s1_PASSWORD}`;
+const s1_encodedToken = Buffer.from(s1_token).toString("base64");
 
-const token = `${username_BSMini}:${password_BSMini}`;
-const encodedTokenBSMini = Buffer.from(token).toString("base64");
-
-const authBSMini = {
+const s1_auth = {
 	headers: {
-		Authorization: "Basic " + encodedTokenBSMini,
+		Authorization: "Basic " + s1_encodedToken,
 	},
 };
-exports.authBSMini = authBSMini
-exports.encodedTokenBSMini = encodedTokenBSMini
+exports.s1_auth = s1_auth;
+exports.s1_encodedToken = s1_encodedToken;
 
+//---------------- Auth, Server 2 ---------------//
+const s2_token = `${process.env.s2_USERNAME}:${process.env.s2_PASSWORD}`;
+const s2_encodedToken = Buffer.from(s2_token).toString("base64");
 
-//---------------- Munki Server Basic Auth ---------------------//
-const username_MunkiServer = process.env.USERNAME_MunkiServer;
-const password_MunkiServer = process.env.PASSWORD_MunkiServer;
+const s2_auth = {
+	headers: {
+		Authorization: "Basic " + s2_encodedToken,
+	},
+};
+exports.s2_auth = s2_auth;
+exports.s2_encodedToken = s2_encodedToken;
 
-const tokenMS = `${username_MunkiServer}:${password_MunkiServer}`
-const encodedTokenMS = Buffer.from(tokenMS).toString("base64");
+//---------------- Auth, Server 2 ---------------//
+const s3_token = `${process.env.s3_USERNAME}:${process.env.s3_PASSWORD}`;
+const s3_encodedToken = Buffer.from(s3_token).toString("base64");
 
-const authMS = {
-  headers: {
-    Authorization: "Basic " + encodedTokenMS
-  }
-}
-exports.authMS = authMS
-exports.encodedTokenMS = encodedTokenMS
-
-//---------------- Mock API Basic Auth ------------------------//
-const username_MockAPI = process.env.USERNAME_MockAPI;
-const password_MockAPI = process.env.PASSWORD_MockAPI;
-
-const tokenMA = `${username_MockAPI}:${password_MockAPI}`
-const encodedTokenMA = Buffer.from(tokenMA).toString("base64");
-
-const authMA = {
-  headers: {
-    Authorization: "Basic " + encodedTokenMA
-  }
-}
-exports.authMA = authMA
-exports.encodedTokenMA = encodedTokenMA
-
-
-
-
+const s3_auth = {
+	headers: {
+		Authorization: "Basic " + s3_encodedToken,
+	},
+};
+exports.s3_auth = s3_auth;
+exports.s3_encodedToken = s3_encodedToken;

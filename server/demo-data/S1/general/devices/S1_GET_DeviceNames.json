@@ -1,0 +1,13 @@
+{
+  "devices": [
+    {
+      "ID": "aws",
+      "links": [
+        {
+          "rel": "self",
+          "href": "204.189.119.100:8000/rest/v1/general/devices/aws"
+        }
+      ]
+    }
+  ]
+}

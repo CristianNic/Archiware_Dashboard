@@ -28,6 +28,8 @@ class Jukebox extends Component {
     // Current client has requested this version for now as they only only monitor servers with one Jukebox and one volume. 
 
     const getJukeboxNames = await axios.get(`${API_URL}/general/jukeboxes`, server(this.props.activeServer))
+    console.log('getJukeboxNames:', getJukeboxNames)
+    
     const jukeboxName = getJukeboxNames.data.jukeboxes.map(device => device.ID)
 
     if (jukeboxName[0] === "Not Found") {
@@ -46,6 +48,8 @@ class Jukebox extends Component {
     } else {
 
       const getJukeboxInfo = await (axios.get(`${API_URL}/general/jukeboxes/${jukeboxName}`, server(this.props.activeServer)))
+      console.log('getJukeboxInfo:', getJukeboxInfo)
+
       const slotcount = getJukeboxInfo.data.slotcount
 
       const slotStrings = []
@@ -61,8 +65,10 @@ class Jukebox extends Component {
       })
 
       const getJukeboxVolume = await Promise.all(getJukeboxVolumePromises)
+      console.log('getJukeboxVolume:', getJukeboxVolume)
 
       const jukeboxVolumeIDs = getJukeboxVolume.map(volume => volume.data.volumes[0].ID)
+      console.log('jukeboxVolumeIDs:', jukeboxVolumeIDs)
 
       const getVolumeNamesPromises = []
       jukeboxVolumeIDs.forEach((volumeID) => {
@@ -70,10 +76,14 @@ class Jukebox extends Component {
       })
 
       const getVolumeNames = await Promise.all(getVolumeNamesPromises)
+      console.log('getVolumeNames:', getVolumeNames)
 
       const label = getVolumeNames.map(volume => volume.data.label)
+      console.log('label:', label)
       const mode = getVolumeNames.map(volume => volume.data.mode)
+      console.log('mode:', mode)
       const barcode = getVolumeNames.map(volume => volume.data.barcode)
+      console.log('barcode:', barcode)
     
       const jukeboxTable = []
       for (let i = 0; i < jukeboxVolumeIDs.length; i++) {

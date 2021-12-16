@@ -11,8 +11,9 @@ import Settings from "../components/Sections/Settings/Settings";
 class Dashboard extends Component {
   
   state = { 
-    activeServer: 'BackupServerMini',
-    activePage: 'status',              
+    // activeServer: 'BackupServerMini',
+    activeServer: "LemonadeFilms",
+    activePage: "status",              
     updateIntervalMin: 20, 
     refresh: true,
     sidebar: true,
@@ -33,17 +34,17 @@ class Dashboard extends Component {
   }
   
   selectServerClick = (e, { name }) => {
-    if (name === "BackupServerMini") {
+    if (name === "LemonadeFilms") {
       console.log("Server", name)
       this.setState({
         activeServer: name,
       })
-    } else if (name === "MunkiServer") {
+    } else if (name === "EagleCreekStudios") {
       console.log("Server", name)
       this.setState({
         activeServer: name
       })
-    } else if (name === "MockAPI") {
+    } else if (name === "BridgeStudios") {
       console.log("Server", name)
       this.setState({
         activeServer: name

@@ -1,0 +1,13 @@
+{
+  "devices": [
+    {
+      "ID": "drive_1",
+      "links": [
+        {
+          "rel": "self",
+          "href": "110.887.170.236:8000/rest/v1/general/devices/drive_1"
+        }
+      ]
+    }
+  ]
+}

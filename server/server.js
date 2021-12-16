@@ -5,9 +5,10 @@ const morgan = require("morgan");
 const logger = require("morgan");
 const cors = require("cors");
 const selectServer = require("../server/middleware/selectServer")
-require("dotenv").config();
+// require("dotenv").config();
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
-const PORT = process.env.PORT || 8090;
+const PORT = process.env.PORT || 8081;
 
 app.use(helmet());
 app.use(morgan("dev"));

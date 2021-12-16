@@ -30,7 +30,7 @@ class SrvInfo extends Component {
     axios
       .get(`${API_URL}/general/srvinfo`, server(this.props.activeServer))
       .then((response) => {
-        const uptime = new Date(response.data.uptime * 1000).toISOString().substr(11, 8)
+        const uptime = new Date(response.data.uptime * 1000).toISOString().substr(11, 8)          
         this.setState({
           SrvInfoTable: response.data,
           Uptime: uptime

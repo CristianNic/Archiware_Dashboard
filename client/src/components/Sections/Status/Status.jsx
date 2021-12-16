@@ -17,7 +17,9 @@ class Status extends Component {
       <section className={`layout__container ${sidebar === true ? "" : "margin"}`}>
         <div className="layout__row1">
           <div className="layout__row1-col1">
-            <SrvInfo activeServer={activeServer} />
+            <SrvInfo
+              activeServer={activeServer}
+            />
             <Client activeServer={activeServer} />
             <Jobs
               activeServer={activeServer}

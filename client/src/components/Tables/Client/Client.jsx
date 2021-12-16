@@ -25,6 +25,7 @@ class Client extends Component {
   async getClientNamesInfo() {
     
     const getClientNames = await axios.get(`${API_URL}/general/clients`, server(this.props.activeServer))
+    console.log('getClientNames:', getClientNames)
 
     const clientNames = getClientNames.data.clients.map(client => client.ID)
 
@@ -33,6 +34,7 @@ class Client extends Component {
       getClientInfoPromises.push(axios.get(`${API_URL}/general/clients/${clientID}`, server(this.props.activeServer)))
     })
     const clientInfo = await Promise.all(getClientInfoPromises)
+    console.log('clientInfo:', clientInfo)
 
     const description = clientInfo.map(desc => desc.data.description)
     const hostname = clientInfo.map(hostname => hostname.data.hostname)

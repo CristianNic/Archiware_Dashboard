@@ -1,33 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
+const {
+	s1_jukebox,
+	s2_jukebox,
+	s3_jukebox,
+} = require("../../demo-data/makeJukeboxes");
 
 // GET VolumeNames
 router.route("/:volumeID").get((req, res) => {
-  const { server, auth } = res.locals;
-	// if req.headers.slotID is undefined (not present) - then all volumes returned
-	// if req.headers.slotID is given then returns only the volume in this slot.
-	axios(`${server}/general/volumes/${req.params.volumeID}`, auth)
-		.then(function (response) {
-			res.json(response.data);
-		})
-    .catch(function (error) {
-      if (error.response) {
-        res.json({
-          resource: "Not Found",
-          headers: error.response.headers,
-          status: error.response.status,
-          statusText: error.response.statusText,
-          responseData: error.response.data,
-        });
-			} else if (error.request) {
-				// The request was made but no response was received
-				console.log(error.request);
-			} else {
-				// Something happened in setting up the request that triggered an Error
-				console.log("Error", error.message);
-			}
-		});
+	const { server } = res.locals;
+	const S1 = process.env.s1_API;
+	const S2 = process.env.s2_API;
+  const S3 = process.env.s3_API;
+  if (server === S1) {
+    const found = s1_jukebox.find(element => element.volumeID === req.params.volumeID);
+    res.json(found);
+  } else if (server === S2) {
+    const found = s2_jukebox.find(element => element.volumeID === req.params.volumeID);
+    res.json(found);
+  } else if (server === S3) {
+    const found = s3_jukebox.find(element => element.volumeID === req.params.volumeID);
+    res.json(found);
+	} else {
+		res.json("Not Found");
+	}  
 });
 
 module.exports = router;

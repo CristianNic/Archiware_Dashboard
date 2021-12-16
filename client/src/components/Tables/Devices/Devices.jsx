@@ -28,8 +28,8 @@ class Devices extends Component {
     const devices = getDeviceNames.data.devices.map(device => device.ID)
     
     const getDeviceInfoPromises = []
-      devices.forEach((device) => {
-        getDeviceInfoPromises.push(axios.get(`${API_URL}/general/devices/${device}`, server(this.props.activeServer)))
+    devices.forEach((device) => {
+      getDeviceInfoPromises.push(axios.get(`${API_URL}/general/devices/${device}`, server(this.props.activeServer)))
     })  
     
     const DeviceInfo = await Promise.all(getDeviceInfoPromises)
