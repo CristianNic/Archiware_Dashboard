@@ -9,8 +9,6 @@ This project is setup to monitor three remote P5 Servers. See the .env.example t
 
 <!-- 1.  Visit [Dashboard Demo](https://....com/) or, -->
 
-To run install node packages in both server and client folders and start.
-
 To run, navigate the server and client folders and type:
 
 ```
