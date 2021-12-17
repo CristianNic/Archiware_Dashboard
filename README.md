@@ -9,6 +9,10 @@ This project is setup to monitor three remote P5 Servers. See the .env.example t
 
 <!-- 1.  Visit [Dashboard Demo](https://....com/) or, -->
 
+<img src="./demo.png" width="260"/>
+<img src="./demo.png"/>
+
+
 To run, navigate the server and client folders and type:
 
 ```
