@@ -1,6 +1,9 @@
 {
   "name": "deploying-w-heroku",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.15.4"
+  },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
