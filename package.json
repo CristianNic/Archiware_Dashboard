@@ -1,0 +1,19 @@
+{
+  "name": "deploying-w-heroku",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
+    "client": "npm start --prefix client",
+    "server": "npm start --prefix server",
+    "server:dev": "nodemon index --prefix server",
+    "setup:dev": "npm i --prefix client && npm i --prefix server && npm run migrate:seed",
+    "migrate:seed": "npm run migrate --prefix server && npm run seed --prefix server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --prefix server && npm run build --prefix client"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
